@@ -1,3 +1,4 @@
+post
 http://localhost:80/auth/Register
 {
     "username": "manuelr",
@@ -9,7 +10,7 @@ http://localhost:80/auth/Register
     "password_confirmation": "secure12345"
   }
 
-
+post
 http://localhost:80/auth/Login
  {
     "username": "manuelr",
@@ -17,9 +18,16 @@ http://localhost:80/auth/Login
   }
   
 
+post
 http://localhost:80/users/favorites
  {
     "recipeId": 1
   }
-  
+
+
+get
+http://localhost:80/users/favorites
+
+
+delete
 http://localhost:80/users/favorites
