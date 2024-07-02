@@ -1,0 +1,23 @@
+[
+  {
+    "username": "manuelr",
+    "firstname": "manu",
+    "lastname": "blabla",
+    "country": "israel",
+    "email": "johndoe@example.com",
+    "password": "secure12345",
+    "password_confirmation": "secure12345"
+  }
+  
+,
+{
+  "username": "omripere",
+  "firstname": "omri",
+  "lastname": "kaki",
+  "country": "israel",
+  "email": "omri@example.com",
+  "password": "secure12345",
+  "password_confirmation": "secure12345"
+}
+
+]

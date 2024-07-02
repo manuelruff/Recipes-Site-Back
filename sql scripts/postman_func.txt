@@ -1,0 +1,25 @@
+http://localhost:80/auth/Register
+{
+    "username": "manuelr",
+    "firstname": "manu",
+    "lastname": "blabla",
+    "country": "israel",
+    "email": "johndoe@example.com",
+    "password": "secure12345",
+    "password_confirmation": "secure12345"
+  }
+
+
+http://localhost:80/auth/Login
+ {
+    "username": "manuelr",
+    "password": "secure12345"
+  }
+  
+
+http://localhost:80/users/favorites
+ {
+    "recipeId": 1
+  }
+  
+http://localhost:80/users/favorites
