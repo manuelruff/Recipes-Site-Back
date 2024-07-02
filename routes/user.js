@@ -49,4 +49,16 @@ router.get('/favorites', async (req, res, next) => {
   }
 });
 
+router.delete('/favorites', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipe_id = req.body.recipeId;
+    await user_utils.removeFavorite(user_id, recipe_id);
+    res.status(200).send("The Recipe successfully removed from favorites");
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 module.exports = router;
