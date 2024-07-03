@@ -70,3 +70,17 @@ CREATE TABLE UserMeals (
     PRIMARY KEY (user_id, recipe_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+-- Create User Last View Table
+CREATE TABLE UserLastView (
+    user_id INT NOT NULL,
+    lastView1 INT,
+    lastView2 INT,
+    lastView3 INT,
+    PRIMARY KEY (user_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (lastView1) REFERENCES recipes(recipe_id),
+    FOREIGN KEY (lastView2) REFERENCES recipes(recipe_id),
+    FOREIGN KEY (lastView3) REFERENCES recipes(recipe_id)
+);
+

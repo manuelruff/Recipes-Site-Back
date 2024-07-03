@@ -35,6 +35,53 @@ async function removeFromMeal(user_id, recipe_id) {
   await DButils.execQuery(`DELETE FROM usermeals WHERE user_id='${user_id}' AND recipe_id=${recipe_id}`);
 }
 
+// last view code - Omri
+async function markAsLastView(user_id, recipe_id) {
+  // Get the current last views for the user
+  let result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM UserLastView WHERE user_id = ${user_id}`);
+
+  if (result.length === 0) {
+      // User not found in UserLastView, insert new row
+      await DButils.execQuery(`INSERT INTO UserLastView (user_id, LastView1) VALUES (${user_id}, ${recipe_id})`);
+  } else {
+      // User found, update the views
+      let { LastView1, LastView2 } = result[0];
+      
+      await DButils.execQuery(`
+          UPDATE UserLastView
+          SET LastView1 = ${recipe_id},
+              LastView2 = ${LastView1},
+              LastView3 = ${LastView2}
+          WHERE user_id = ${user_id}
+      `);
+  }
+}
+
+
+async function getLastViews(user_id) {
+  // Fetch the last viewed recipe IDs
+  const result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM UserLastView WHERE user_id='${user_id}'`);
+
+  if (result.length === 0) {
+      // If no records are found, return an empty array
+      return [];
+  }
+
+  const { LastView1, LastView2, LastView3 } = result[0];
+  const lastViewIds = [LastView1, LastView2, LastView3].filter(id => id !== null);
+
+  // Fetch the details of each recipe
+  const lastViewDetailsPromises = lastViewIds.map(recipe_id => recipes_utils.getRecipeDetails(recipe_id));
+
+  try {
+      const lastViewDetails = await Promise.all(lastViewDetailsPromises);
+      return lastViewDetails;
+  } catch (error) {
+      console.error("Failed to fetch last viewed recipes:", error);
+      throw error;
+  }
+}
+
 
 
 module.exports = {
@@ -43,5 +90,7 @@ module.exports = {
     getFavoriteRecipes,
     getMeals,
     markAsMeal,
-    removeFromMeal
+    removeFromMeal,
+    markAsLastView,
+    getLastViews
   };
