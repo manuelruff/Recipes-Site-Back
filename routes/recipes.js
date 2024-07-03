@@ -33,4 +33,19 @@ router.get("/:recipeId", async (req, res, next) => {
   }
 });
 
+
+
+/**
+ * This path returns 3 random recipes to use when the site is opens
+ */
+router.get("/random", async (req, res, next) => {
+  try {
+    const recipe = await recipes_utils.getRandomRecipes(req.params.num);
+    res.send(recipe);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 module.exports = router;

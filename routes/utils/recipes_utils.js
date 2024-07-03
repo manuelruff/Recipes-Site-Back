@@ -48,8 +48,41 @@ async function getRecipeDetails(recipe_id) {
     };
 }
 
+async function getRandomRecipes(number = 3) {
+    try {
+        let response = await axios.get(`${api_domain}/random`, {
+            params: {
+                number: number,
+                tags: '',
+                excludeTags: '',
+                apiKey: api_key
+            }
+        });
+
+        let recipes = response.data.recipes.map(recipe => {
+            return {
+                id: recipe.id,
+                title: recipe.title,
+                readyInMinutes: recipe.readyInMinutes,
+                image: recipe.image,
+                popularity: recipe.aggregateLikes,
+                vegan: recipe.vegan,
+                vegetarian: recipe.vegetarian,
+                glutenFree: recipe.glutenFree
+            };
+        });
+
+        return recipes;
+    } catch (error) {
+        console.error("Error fetching random recipes:", error);
+        return [];
+    }
+}
+
 module.exports = {
     getRecipesPreview,
     getRecipeInformation,
-    getRecipeDetails
+    getRecipeDetails,
+    getRandomRecipes
+
 };

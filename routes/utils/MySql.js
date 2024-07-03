@@ -15,6 +15,10 @@ const connection =  () => {
   return new Promise((resolve, reject) => {
   pool.getConnection((err, connection) => {
     if (err) reject(err);
+    if (!connection) {
+      console.error('Connection is undefined. Pool might be exhausted or not configured properly.');
+      return;
+    }
     console.log("MySQL pool connected: threadId " + connection.threadId);
     const query = (sql, binding) => {
       return new Promise((resolve, reject) => {
