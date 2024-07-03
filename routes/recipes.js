@@ -42,12 +42,13 @@ router.get("/:recipeId", async (req, res, next) => {
  */
 router.get("/random", async (req, res, next) => {
   try {
-    const recipe = await recipes_utils.getRandomRecipes(req.params.num);
-    res.send(recipe);
+    const number = req.query.number;
+    const results = await recipes_utils.getRandomRecipes(number);
+    res.send(results);
   } catch (error) {
     next(error);
   }
-});
+}); // <-- Missing closing bracket added here
 
 
 module.exports = router;

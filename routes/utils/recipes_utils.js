@@ -76,34 +76,28 @@ async function searchRecipe(recipeName, cuisine, diet, intolerance, number) {
     }
 }
 
-async function getRandomRecipes(number = 3) {
+
+async function getRandomRecipes(number=3) {
+    const params = {
+        apiKey: process.env.spooncular_apiKey,
+        number: number,
+    };
+
     try {
-        let response = await axios.get(`${api_domain}/random`, {
-            params: {
-                number: number,
-                tags: '',
-                excludeTags: '',
-                apiKey: api_key
-            }
-        });
-
-        let recipes = response.data.recipes.map(recipe => {
-            return {
-                id: recipe.id,
-                title: recipe.title,
-                readyInMinutes: recipe.readyInMinutes,
-                image: recipe.image,
-                popularity: recipe.aggregateLikes,
-                vegan: recipe.vegan,
-                vegetarian: recipe.vegetarian,
-                glutenFree: recipe.glutenFree
-            };
-        });
-
-        return recipes;
+        const response = await axios.get(`${api_domain}/random`, { params });
+        return response.data.results.map(recipe => ({
+            id: recipe.id,
+            title: recipe.title,
+            readyInMinutes: recipe.readyInMinutes,
+            image: recipe.image,
+            aggregateLikes: recipe.aggregateLikes,
+            vegan: recipe.vegan,
+            vegetarian: recipe.vegetarian,
+            glutenFree: recipe.glutenFree
+        }));
     } catch (error) {
-        console.error("Error fetching random recipes:", error);
-        return [];
+        console.error("Failed to fetch recipes:", error);
+        throw error;
     }
 }
 
