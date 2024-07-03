@@ -48,13 +48,54 @@ router.get('/favorites', async (req, res, next) => {
     next(error);
   }
 });
-
+/**
+ * This path deletes the favorite recipe from the logged-in user
+ */
 router.delete('/favorites', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const recipe_id = req.body.recipeId;
     await user_utils.removeFavorite(user_id, recipe_id);
     res.status(200).send("The Recipe successfully removed from favorites");
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * This path returns the meals plan for the logged-in user
+ */
+router.get('/meals', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const meals = await user_utils.getMeals(user_id);
+    res.status(200).send(meals);
+  } catch (error) {
+    next(error);
+  }
+});
+/**
+ * This path adds the revipe to meal plan for the logged-in user
+ */
+router.post('/meals', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipe_id = req.body.recipeId;
+    await user_utils.markAsMeal(user_id, recipe_id);
+    res.status(200).send("The Recipe successfully saved to meals");
+  } catch (error) {
+    next(error);
+  }
+});
+/**
+ * This path deletes the revipe from meal plan for the logged-in user
+ */
+router.delete('/meals', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipe_id = req.body.recipeId;
+    await user_utils.removeFromMeal(user_id, recipe_id);
+    res.status(200).send("The Recipe successfully removed from meals");
   } catch (error) {
     next(error);
   }

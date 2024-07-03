@@ -1,0 +1,813 @@
+-- Active: 1719921722230@@localhost@3306
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/MANUEL42994299/2.2/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+tags:
+  - name: user
+    description: Operations about user
+  - name: recipe
+    description: Operations about recipes
+  - name: navigation
+    description:  Operations about navigation in the site
+
+
+paths:
+  /:
+    get:
+      tags:
+        - recipe
+      summary: main page recipe preview
+      operationId: mainPage
+      description: |
+        you can get some random recipes to preview in the main page
+      parameters:
+        - in: query
+          name: lastSeen
+          description: do i need to fetch the last seen for a loged in user
+          schema:
+            type: boolean
+          required: false
+      responses:
+        '200':
+          description: some recipes preview
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipe_preview'
+        '404':
+          description: recipes not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipes not found
+    post:
+      tags:
+        - user
+      summary: log in information
+      operationId: logInMainPage
+      description: |
+        you can log in from the main page
+      parameters:
+        - in: query
+          name: username
+          description: your username
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: password
+          description: your password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: log in successful
+          content:
+            application/json:
+              schema:
+                type: string
+                example: log in successful
+        '404':
+          description: log in failed
+          content:
+            application/json:
+              schema:
+                type: string
+                example: log in failed
+  
+  /login:
+    post:
+      tags:
+        - user
+      summary: log in
+      operationId: logIn
+      description: |
+        log in to the site
+      parameters:
+        - in: query
+          name: username
+          description: your username
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: password
+          description: your password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: log in successful
+          content:
+            application/json:
+              schema:
+                type: string
+                example: log in successful
+        '404':
+          description: log in failed
+          content:
+            application/json:
+              schema:
+                type: string
+                example: log in failed
+
+  /register:
+    post:
+      tags:
+        - user
+      summary: register
+      operationId: register
+      description: |
+        register to the site
+      parameters:
+        - in: query
+          name: username
+          description: your username
+          required: true
+          schema:
+            type: string
+            minimum: 3
+            maximum: 8
+        - in: query
+          name: first_name
+          description: your first name
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: last_name
+          description: your last name
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: country
+          description: your country
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: email
+          description: your email
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: password
+          description: your password
+          required: true
+          schema:
+            type: string
+            minimum: 5
+            maximum: 10
+        - in: query
+          name: password_confirmation
+          description: confirm your password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: register successful
+          content:
+            application/json:
+              schema:
+                type: string
+                example: register successful
+        '409':
+          description: Username already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Username already exists
+  
+  /search:
+    get:
+      tags:
+        - recipe
+      summary: searches for recipe
+      operationId: searchForRecipe
+      description: |
+        By passing in the value of the search, you can search for the proper recipes by some filters
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up recipes
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: number of results you want to get back from search
+          schema:
+            type: integer
+            format: int32
+            minimum: 5
+            maximum: 15
+          required: false
+        - in: query
+          name: filter_diet
+          description: the diet you want to filter by (katogenic, veegan, etc)
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: filter_cuisine
+          description: the cuisine you want to filter by (italian, asian, etc)
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: filter_intolerance
+          description: the intolerance you want to filter by (dairy, peanut, etc)
+          schema:
+            type: string
+          required: false
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipe_preview'
+        '404':
+          description: recipe with these filters or text not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe with these filters or text not found
+
+  
+  /recipe/{recipeId}:
+    get:
+      tags:
+        - recipe
+      summary: get recipe by id
+      operationId: getRecipeById
+      description: |
+        get a recipe by its id
+        it will also write this recipe to the user's history (last viewed recipes)
+      parameters:
+        - in: path
+          name: recipeId
+          description: ID of recipe to return
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: username
+          description: username of user to write this recipe to his/her history
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: recipe data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipe_full_view'
+        '404':
+          description: recipe not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe information not found
+    post:
+      tags:
+        - recipe
+      summary: Add recipe to user's favorites or meal plan, based on the button clicked
+      operationId: addRecipeAction
+      description: Add a recipe to user's favorites or meal plan.
+      parameters:
+        - in: path
+          name: recipeId
+          description: ID of recipe to add to favorites or meal plan
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: action
+          description: Action to perform (favorite or meal)
+          required: true
+          schema:
+            type: string
+            enum:
+              - favorite
+              - meal
+        - in: query
+          name: username
+          description: Username of user to add recipe to their favorites or meal plan
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recipe successfully added to favorites or meal plan
+        '404':
+          description: Recipe or user not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Recipe or user not found
+    delete:
+      tags:
+        - recipe
+      summary: remove recipe from user's favorite
+      operationId: removeRecipeFromFavorites
+      description: |
+        remove a recipe from user's favorite
+      parameters:
+        - in: path
+          name: recipeId
+          description: ID of recipe to remove from favorite
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: username
+          description: username of user to remove recipe from his/her favorite
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: recipe removed from favorite
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe removed from favorite
+        '404':
+          description: recipe not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe not found
+
+  /favorite:
+    get:
+      tags:
+        - recipe
+      summary: get user's favorite recipes
+      operationId: getFavoriteRecipes
+      description: |
+        get user's favorite recipes 
+      parameters:
+        - in: query
+          name: username
+          description: username of user to get his/her favorite recipes
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: user's favorite recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipe_preview'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: user not found
+
+          
+  /myRecipe:
+    get:
+      tags:
+        - recipe
+      summary: get user's recipes
+      operationId: getMyRecipes
+      description: |
+        get user's recipes, my recipes- the ones he created
+      parameters:
+        - in: query
+          name: username
+          description: username of user to get his/her recipes
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: user's recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipe_preview'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: user not found
+    post: 
+      tags:
+        - recipe
+      summary: add recipe
+      operationId: addRecipe
+      description: |
+        add a recipe to my recipes for a username
+      parameters:
+        - in: query
+          name: title
+          description: title of the recipe
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: imageUrl
+          description: image of the recipe
+          required: true
+          schema:
+            type: string
+            format: uri
+
+        # instructions
+        - in: query
+          name: analyzedInstructions
+          description: instructions of the recipe
+          required: true
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                steps:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      number:
+                        type: integer
+                      step:
+                        type: string
+                        
+        - in: query
+          name: readyInMinutes
+          description: time to make the recipe
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: servings
+          description: number of servings
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: vegetarian
+          description: is the recipe vegetarian
+          required: true
+          schema:
+            type: boolean
+        - in: query
+          name: vegan
+          description: is the recipe vegan
+          required: true
+          schema:
+            type: boolean
+        - in: query
+          name: glutenFree
+          description: is the recipe gluten free
+          required: true
+          schema:
+            type: boolean
+        - in: query
+          name: extendedIngredients
+          description: ingredients of the recipe
+          required: true
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                amount:
+                  type: integer
+      responses:      
+        '200':
+          description: recipe added successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe added successfully
+        '404':
+          description: recipe not added
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe not added
+  
+  /myFamily:
+    get:
+        tags:
+          - recipe
+        summary: get user's family recipes - in our case the site owner family recipes
+        operationId: getFamilyRecipes
+        description: |
+          get user's family recipes
+        responses:
+          '200':
+            description: user's family recipes
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/recipe_family_view'
+          '404':
+            description: user not found
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: user not found
+
+    
+components:
+  schemas:
+    recipe_preview:
+      type: object
+      required:
+        - id
+        - image
+        - title
+        - readyInMinutes
+        - aggregateLikes
+        - vegetarian
+        - vegan
+        - glutenFree
+        - summary
+      properties:
+        id:
+          type: integer
+          example: 716429
+        image:
+          type: string
+          format: uri
+          example: "https://img.spoonacular.com/recipes/716429-556x370.jpg"
+        title:
+          type: string
+          example: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs"
+        readyInMinutes:
+          type: integer
+          example: 45
+        aggregateLikes:
+          type: integer
+          example: 209
+        vegetarian:
+          type: boolean
+          example: false
+        vegan:
+          type: boolean
+          example: false
+        glutenFree:
+          type: boolean
+          example: false
+        summary:
+          type: string
+          example: "You can never have too many main course recipes..."
+    
+    recipe_full_view:
+      type: object
+      required:
+        - id
+        - image
+        - title
+        - readyInMinutes
+        - aggregateLikes
+        - vegetarian
+        - vegan
+        - glutenFree
+        - summary
+        - analyzedInstructions
+        - extendedIngredients
+        - servings
+      properties:
+        id:
+          type: integer
+          example: 716429
+        image:
+          type: string
+          format: uri
+          example: "https://img.spoonacular.com/recipes/716429-556x370.jpg"
+        title:
+          type: string
+          example: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs"
+        readyInMinutes:
+          type: integer
+          example: 45
+        aggregateLikes:
+          type: integer
+          example: 209
+        vegetarian:
+          type: boolean
+          example: false
+        vegan:
+          type: boolean
+          example: false
+        glutenFree:
+          type: boolean
+          example: false
+        summary:
+          type: string
+          example: "You can never have too many main course recipes, so give Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs a try. One serving contains <b>543 calories</b>, <b>17g of protein</b>, and <b>16g of fat</b>. For <b>$1.57 per serving</b>, this recipe <b>covers 22%</b> of your daily requirements of vitamins and minerals. This recipe serves 2. A mixture of butter, white wine, pasta, and a handful of other ingredients are all it takes to make this recipe so yummy. 209 people have tried and liked this recipe. It is brought to you by fullbellysisters.blogspot.com. From preparation to the plate, this recipe takes approximately <b>45 minutes</b>. Taking all factors into account, this recipe <b>earns a spoonacular score of 83%</b>, which is tremendous. If you like this recipe, take a look at these similar recipes: <a href=\"https://spoonacular.com/recipes/pasta-with-garlic-scallions-cauliflower-breadcrumbs-1230187\">Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs</a>, <a href=\"https://spoonacular.com/recipes/pasta-with-garlic-scallions-cauliflower-breadcrumbs-1229807\">Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs</a>, and <a href=\"https://spoonacular.com/recipes/pasta-with-garlic-scallions-cauliflower-breadcrumbs-1229669\">Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs</a>."
+        analyzedInstructions:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: ""
+              steps:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    number:
+                      type: integer
+                      example: 1
+                    step:
+                      type: string
+                      example: "Boil water in a large pot. Cook pasta according to package instructions."
+        extendedIngredients:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1001
+              aisle:
+                type: string
+                example: "Milk, Eggs, Other Dairy"
+              image:
+                type: string
+                format: uri
+                example: "butter-sliced.jpg"
+              consistency:
+                type: string
+                example: "SOLID"
+              name:
+                type: string
+                example: "butter"
+              original:
+                type: string
+                example: "1 tbsp butter"
+              amount:
+                type: number
+                example: 1.0
+              unit:
+                type: string
+                example: "tbsp"
+        servings:
+          type: integer
+          example: 2
+
+    recipe_family_view:
+      type: object
+      required:
+        - id
+        - image
+        - title
+        - owner
+        - readyInMinutes
+        - aggregateLikes
+        - summary
+        - story
+        - analyzedInstructions
+        - extendedIngredients
+      properties:
+        id:
+          type: integer
+          example: 111111
+        image:
+          type: string
+          format: uri
+          example: "https://kipa.co.il/wp-content/uploads/2017/04/1-89201524544.jpg"
+        image1:
+          type: string
+          format: uri
+          example: "https://www.pascalpr.co.il/wp-content/uploads/%D7%A7%D7%95%D7%A1%D7%A7%D7%95%D7%A1-3.jpg"
+        image2:
+          type: string
+          format: uri
+          example: "https://www.yehudit-aviv.co.il/wp-content/uploads/DSC_0013-%D7%A2%D7%A8%D7%95%D7%9A-1-1024x682.jpg"
+        image3:
+          type: string
+          format: uri
+          example: "https://www.meteg.co.il/wp-content/uploads/2023/10/%D7%A2%D7%99%D7%A6%D7%95%D7%91-%D7%9C%D7%9C%D7%90-%D7%A9%D7%9D-87-600x399.jpg"
+        image4:
+          type: string
+          format: uri
+          example: "https://scontent.ftlv1-1.fna.fbcdn.net/v/t39.30808-6/448533611_10219690663975533_258470941627403264_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=6dC3KJkNPAMQ7kNvgGFI8di&_nc_ht=scontent.ftlv1-1.fna&oh=00_AYDpmtQ6yKiOjFyTC0OUPIkDlwDCqDki3hNa5SMvArm8wQ&oe=6674532E"
+        title:
+          type: string
+          example: "Kuskus"
+        owner:
+          type: string
+          example: "Disya maimon - manuel's grandma"
+        readyInMinutes:
+          type: integer
+          example: 60
+        aggregateLikes:
+          type: integer
+          example: 150
+        vegetarian:
+          type: boolean
+          example: true
+        vegan:
+          type: boolean
+          example: true
+        glutenFree:
+          type: boolean
+          example: false
+        family:
+          type: boolean
+          example: true
+        summary:
+          type: string
+          example: "Kuskus is a traditional North African dish made from steamed semolina wheat. It is a staple food in many countries including Morocco, Algeria, and Tunisia."
+        story:
+          type: string
+          example: "This dish has been passed down through generations in my family, and it always brings back memories of family gatherings. We make this recipe every Friday night."
+        analyzedInstructions:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              steps:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    number:
+                      type: integer
+                    step:
+                      type: string
+        extendedIngredients:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              aisle:
+                type: string
+              image:
+                type: string
+                format: uri
+              consistency:
+                type: string
+              name:
+                type: string
+              original:
+                type: string
+              amount:
+                type: number
+              unit:
+                type: string
+        servings:
+          type: integer
+          example: 4
+

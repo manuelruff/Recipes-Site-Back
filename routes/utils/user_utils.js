@@ -13,8 +13,25 @@ async function removeFavorite(user_id, recipe_id) {
     await DButils.execQuery(`DELETE FROM FavoriteRecipes WHERE user_id='${user_id}' AND recipe_id=${recipe_id}`);
   }
 
+async function getMeals(user_id){
+    const meals = await DButils.execQuery(`select recipe_id from usermeals where user_id='${user_id}'`);
+    return meals;
+}
+async function markAsMeal(user_id, recipe_id){
+  await DButils.execQuery(`insert into usermeals values ('${user_id}',${recipe_id})`);
+}
+
+async function removeFromMeal(user_id, recipe_id) {
+  await DButils.execQuery(`DELETE FROM usermeals WHERE user_id='${user_id}' AND recipe_id=${recipe_id}`);
+}
+
+
+
 module.exports = {
     markAsFavorite,
     removeFavorite,
     getFavoriteRecipes,
+    getMeals,
+    markAsMeal,
+    removeFromMeal
   };

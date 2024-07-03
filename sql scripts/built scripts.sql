@@ -1,4 +1,5 @@
 -- Drop existing tables if they exist to start clean
+DROP TABLE IF EXISTS UserMeals;
 DROP TABLE IF EXISTS favoriterecipes;
 DROP TABLE IF EXISTS instructions;
 DROP TABLE IF EXISTS ingredients;
@@ -55,6 +56,15 @@ CREATE TABLE ingredients (
 
 -- Create Favorite Recipes Table
 CREATE TABLE favoriterecipes (
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    PRIMARY KEY (user_id, recipe_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (recipe_id) REFERENCES recipes(id)
+);
+
+-- Create User Meals Table
+CREATE TABLE UserMeals (
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     PRIMARY KEY (user_id, recipe_id),

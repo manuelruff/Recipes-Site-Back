@@ -13,13 +13,15 @@ router.get("/search", async (req, res, next) => {
     const cuisine = req.query.cuisine;
     const diet = req.query.diet;
     const intolerance = req.query.intolerance;
-    const number = req.query.number || 5;
+    const number = req.query.number;
     const results = await recipes_utils.searchRecipe(recipeName, cuisine, diet, intolerance, number);
     res.send(results);
   } catch (error) {
     next(error);
   }
 }); // <-- Missing closing bracket added here
+
+
 
 /**
  * This path returns full details of a recipe by its id

@@ -31,3 +31,13 @@ http://localhost:80/users/favorites
 
 delete
 http://localhost:80/users/favorites
+
+get
+http://localhost:80/recipes/search
+ {
+    "recipeName": "chicken",
+    "cuisine": "",
+    "diet": "",
+    "intolerance": "",
+    "number": 10
+  }
