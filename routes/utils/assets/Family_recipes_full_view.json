@@ -1,0 +1,324 @@
+[
+    {
+        "id": 111111,
+        "image": "https://kipa.co.il/wp-content/uploads/2017/04/1-89201524544.jpg",
+        "image1": "https://www.pascalpr.co.il/wp-content/uploads/%D7%A7%D7%95%D7%A1%D7%A7%D7%95%D7%A1-3.jpg",
+        "image2": "https://www.yehudit-aviv.co.il/wp-content/uploads/DSC_0013-%D7%A2%D7%A8%D7%95%D7%9A-1-1024x682.jpg",
+        "image3": "https://www.meteg.co.il/wp-content/uploads/2023/10/%D7%A2%D7%99%D7%A6%D7%95%D7%91-%D7%9C%D7%9C%D7%90-%D7%A9%D7%9D-87-600x399.jpg",
+        "image4": "https://scontent.ftlv1-1.fna.fbcdn.net/v/t39.30808-6/448533611_10219690663975533_258470941627403264_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=6dC3KJkNPAMQ7kNvgGFI8di&_nc_ht=scontent.ftlv1-1.fna&oh=00_AYDpmtQ6yKiOjFyTC0OUPIkDlwDCqDki3hNa5SMvArm8wQ&oe=6674532E",
+        "title": "Kuskus",
+        "owner":"Disya maimon - manuel's grandma",
+        "readyInMinutes": 60,
+        "aggregateLikes": 150,
+        "vegetarian": true,
+        "vegan": true,
+        "glutenFree": false,
+        "family": true,
+        "summary": "Kuskus is a traditional North African dish made from steamed semolina wheat. It is a staple food in many countries including Morocco, Algeria, and Tunisia.",
+        "story": "This dish has been passed down through generations in my family, and it always brings back memories of family gatherings. we make this recipe every friday night.", 
+        "analyzedInstructions": [
+            {
+                "name": "",
+                "steps": [
+                    {
+                        "number": 1,
+                        "step": "Place the semolina in a large bowl. Add water slowly and rub the semolina between your hands to form small grains."
+                    },
+                    {
+                        "number": 2,
+                        "step": "Steam the grains in a couscous pot for about 20 minutes."
+                    },
+                    {
+                        "number": 3,
+                        "step": "In a separate pot, cook vegetables and chickpeas with spices."
+                    },
+                    {
+                        "number": 4,
+                        "step": "Combine the steamed couscous with the cooked vegetables and chickpeas."
+                    },
+                    {
+                        "number": 5,
+                        "step": "Serve hot with a sprinkle of fresh herbs on top."
+                    }
+                ]
+            }
+        ],
+        "extendedIngredients": [
+            {
+                "id": 20001,
+                "aisle": "Pasta and Rice",
+                "image": "couscous.jpg",
+                "consistency": "SOLID",
+                "name": "semolina",
+                "original": "2 cups semolina",
+                "amount": 2.0,
+                "unit": "cups"
+            },
+            {
+                "id": 16057,
+                "aisle": "Canned and Jarred",
+                "image": "chickpeas.jpg",
+                "consistency": "SOLID",
+                "name": "chickpeas",
+                "original": "1 can chickpeas, drained",
+                "amount": 1.0,
+                "unit": "can"
+            },
+            {
+                "id": 11282,
+                "aisle": "Produce",
+                "image": "onion.png",
+                "consistency": "SOLID",
+                "name": "onion",
+                "original": "1 onion, chopped",
+                "amount": 1.0,
+                "unit": ""
+            },
+            {
+                "id": 11090,
+                "aisle": "Produce",
+                "image": "carrot.jpg",
+                "consistency": "SOLID",
+                "name": "carrot",
+                "original": "2 carrots, sliced",
+                "amount": 2.0,
+                "unit": ""
+            },
+            {
+                "id": 1002030,
+                "aisle": "Spices and Seasonings",
+                "image": "spices.jpg",
+                "consistency": "SOLID",
+                "name": "spices",
+                "original": "Spices to taste (cumin, coriander, turmeric)",
+                "amount": 1.0,
+                "unit": "tbsp"
+            }
+        ],
+        "servings": 4
+    },
+    {
+        "id": 222222,
+        "image": "https://www.thekitchencoach.co.il/wp-content/uploads/2019/04/%D7%A4%D7%A7%D7%99%D7%99%D7%9C%D7%94-%D7%98%D7%95%D7%A0%D7%99%D7%A1%D7%90%D7%99%D7%AA-%D7%90%D7%9E%D7%99%D7%AA%D7%99%D7%AA.-%D7%A6%D7%99%D7%9C%D7%95%D7%9D-%D7%A2%D7%96-%D7%AA%D7%9C%D7%9D.jpg",
+        "image1": "https://www.thekitchencoach.co.il/wp-content/uploads/2019/04/%D7%A9%D7%95%D7%98%D7%A4%D7%99%D7%9D-%D7%9E%D7%99%D7%99%D7%91%D7%A9%D7%99%D7%9D-%D7%95%D7%A7%D7%95%D7%A6%D7%A6%D7%99%D7%9D-%D7%92%D7%A1-%D7%90%D7%AA-%D7%94%D7%A2%D7%9C%D7%99%D7%9D-%D7%95%D7%9E%D7%A2%D7%91%D7%99%D7%A8%D7%99%D7%9D-%D7%9C%D7%A1%D7%99%D7%A8-%D7%94%D7%9B%D7%99-%D7%92%D7%93%D7%95%D7%9C-%D7%91%D7%91%D7%99%D7%AA.-%D7%A6%D7%99%D7%9C%D7%95%D7%9D-%D7%A2%D7%96-%D7%AA%D7%9C%D7%9D.jpg",
+        "image2": "https://www.thekitchencoach.co.il/wp-content/uploads/2019/04/%D7%90%D7%97%D7%A8%D7%99-45-60-%D7%93%D7%A7%D7%95%D7%AA-%D7%91%D7%99%D7%A9%D7%95%D7%9C-%D7%96%D7%94-%D7%9E%D7%94-%D7%A9%D7%A0%D7%A9%D7%90%D7%A8-%D7%9E%D7%94%D7%9E%D7%A0%D7%92%D7%95%D7%9C%D7%93-%D7%A6%D7%A8%D7%99%D7%9A-%D7%9C%D7%A9%D7%9E%D7%95%D7%A2-%D7%A7%D7%95%D7%9C%D7%95%D7%AA-%D7%98%D7%99%D7%92%D7%95%D7%9F-%D7%A2%D7%93%D7%99%D7%A0%D7%99%D7%9D-%D7%A4%D7%A6%D7%A4%D7%A6-%D7%95%D7%96%D7%94-%D7%A1%D7%99%D7%9E%D7%9F-%D7%A9%D7%94%D7%95%D7%90-%D7%9E%D7%95%D7%9B%D7%9F.-%D7%A6%D7%99%D7%9C%D7%95%D7%9D-%D7%A2%D7%96-%D7%AA%D7%9C%D7%9D.jpg",
+        "image3":"https://www.thekitchencoach.co.il/wp-content/uploads/2019/04/%D7%9E%D7%95%D7%A1%D7%99%D7%A4%D7%99%D7%9D-%D7%9B%D7%95%D7%A1-%D7%9C%D7%95%D7%91%D7%99%D7%94-%D7%9E%D7%95%D7%A9%D7%A8%D7%99%D7%AA-%D7%95%D7%90%D7%AA-%D7%94%D7%9E%D7%99%D7%9D-%D7%A9%D7%94%D7%95%D7%A6%D7%90%D7%A0%D7%95-%D7%9E%D7%91%D7%99%D7%A9%D7%95%D7%9C-%D7%94%D7%9E%D7%A0%D7%92%D7%95%D7%9C%D7%93-%D7%95%D7%A2%D7%95%D7%93-%D7%A7%D7%A6%D7%AA-%D7%90%D7%9D-%D7%A6%D7%A8%D7%99%D7%9A.-%D7%A6%D7%99%D7%9C%D7%95%D7%9D-%D7%A2%D7%96-%D7%AA%D7%9C%D7%9D.jpg",
+        "image4":"https://www.thekitchencoach.co.il/wp-content/uploads/2019/04/%D7%AA%D7%91%D7%A9%D7%99%D7%9C-%D7%91%D7%98%D7%A2%D7%9D-%D7%A2%D7%A9%D7%99%D7%A8-%D7%95%D7%9E%D7%99%D7%95%D7%97%D7%93.-%D7%A6%D7%99%D7%9C%D7%95%D7%9D-%D7%A2%D7%96-%D7%AA%D7%9C%D7%9D.jpg",
+        "title": "Pkaila/Bkaïla",
+        "owner":"Disya maimon - manuel's grandma",
+        "readyInMinutes": 180,
+        "aggregateLikes": 100,
+        "vegetarian": false,
+        "vegan": false,
+        "glutenFree": true,
+        "family": true,
+        "summary": "Pkaila is a traditional Tunisian dish made from slow-cooked spinach or chard, often mixed with beans or meat, and seasoned with spices.",
+        "story": "This reminds me of my grandfather who came from Tunisia and used to love this dish. We would eat it every Friday night at grandma's house with some couscous.",
+        "analyzedInstructions": [
+            {
+                "name": "",
+                "steps": [
+                    {
+                        "number": 1,
+                        "step": "In a large pot, heat olive oil and add chopped spinach or chard."
+                    },
+                    {
+                        "number": 2,
+                        "step": "Cook the greens until they are dark and reduced, stirring occasionally."
+                    },
+                    {
+                        "number": 3,
+                        "step": "Add beans or meat and cook for another hour, adding water as needed."
+                    },
+                    {
+                        "number": 4,
+                        "step": "Season with salt, pepper, and other spices."
+                    },
+                    {
+                        "number": 5,
+                        "step": "Serve hot with bread or couscous."
+                    }
+                ]
+            }
+        ],
+        "extendedIngredients": [
+            {
+                "id": 11457,
+                "aisle": "Produce",
+                "image": "spinach.jpg",
+                "consistency": "SOLID",
+                "name": "spinach",
+                "original": "1 kg spinach or chard",
+                "amount": 1.0,
+                "unit": "kg"
+            },
+            {
+                "id": 16063,
+                "aisle": "Canned and Jarred",
+                "image": "white-beans.jpg",
+                "consistency": "SOLID",
+                "name": "white beans",
+                "original": "1 can white beans, drained",
+                "amount": 1.0,
+                "unit": "can"
+            },
+            {
+                "id": 1034053,
+                "aisle": "Oil, Vinegar, Salad Dressing",
+                "image": "olive-oil.jpg",
+                "consistency": "LIQUID",
+                "name": "olive oil",
+                "original": "4 tbsp olive oil",
+                "amount": 4.0,
+                "unit": "tbsp"
+            },
+            {
+                "id": 1002030,
+                "aisle": "Spices and Seasonings",
+                "image": "spices.jpg",
+                "consistency": "SOLID",
+                "name": "spices",
+                "original": "Spices to taste (cumin, coriander, pepper)",
+                "amount": 1.0,
+                "unit": "tbsp"
+            },
+            {
+                "id": 2047,
+                "aisle": "Spices and Seasonings",
+                "image": "salt.jpg",
+                "consistency": "SOLID",
+                "name": "salt",
+                "original": "Salt to taste",
+                "amount": 1.0,
+                "unit": "tsp"
+            }
+        ],
+        "servings": 6
+    },
+    {
+        "id": 333333,
+        "image": "https://scontent.ftlv1-1.fna.fbcdn.net/v/t1.18169-9/10369728_10153001539708749_508997398298571402_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=RgUTC2LtXwsQ7kNvgFzmQ4U&_nc_ht=scontent.ftlv1-1.fna&oh=00_AYBuGyjAGUfInvWZmtisvcICdUkZlfoNFBoO7L5Rbkamxg&oe=66960747",
+        "image1": "https://farm8.staticflickr.com/7183/6901845818_84c4ddea34_z.jpg",
+        "image2": "https://farm8.staticflickr.com/7112/7047941479_d86e6ffa43_z.jpg",
+        "image3": "https://scontent.ftlv1-1.fna.fbcdn.net/v/t1.18169-9/10931363_10153001538858749_4948971520448472632_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=-M7TRqN59zkQ7kNvgHIBY9Y&_nc_ht=scontent.ftlv1-1.fna&oh=00_AYAdAwH8J8DiaCJWLpfNbqD7dhSBScBTPNlFt3cY5JcoKQ&oe=66961EFB",
+        "image4": "https://scontent.ftlv1-1.fna.fbcdn.net/v/t1.18169-9/10357456_10153001539568749_5686781722985623510_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=eEJTW_ugvTkQ7kNvgGPK3MJ&_nc_ht=scontent.ftlv1-1.fna&oh=00_AYCnM3E7wWYloV6-vRXzRsGlwMhFEdLV7pKS1yXGxfH5Lw&oe=6696107E",
+        "title": "Pavlova",
+        "owner":"Manuel - the owner of this site",
+        "readyInMinutes": 90,
+        "aggregateLikes": 200,
+        "vegetarian": true,
+        "vegan": false,
+        "glutenFree": true,
+        "family": true,
+        "summary": "Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlova. It has a crisp crust and soft, light inside, usually topped with fruit and whipped cream.",
+        "story": "This dessert is my favorite cake, i make it every time i want something sweet that will last for a few days",
+        "analyzedInstructions": [
+            {
+                "name": "",
+                "steps": [
+                    {
+                        "number": 1,
+                        "step": "Preheat your oven to 150°C (300°F)."
+                    },
+                    {
+                        "number": 2,
+                        "step": "In a large bowl, beat egg whites until stiff peaks form."
+                    },
+                    {
+                        "number": 3,
+                        "step": "Gradually add sugar, beating until glossy and stiff."
+                    },
+                    {
+                        "number": 4,
+                        "step": "Fold in cornstarch, vinegar, and vanilla extract."
+                    },
+                    {
+                        "number": 5,
+                        "step": "Spread the meringue on a baking sheet lined with parchment paper, forming a circle."
+                    },
+                    {
+                        "number": 6,
+                        "step": "Bake for 1 hour, then turn off the oven and let it cool completely inside."
+                    },
+                    {
+                        "number": 7,
+                        "step": "Top with whipped cream and fresh fruits before serving."
+                    }
+                ]
+            }
+        ],
+        "extendedIngredients": [
+            {
+                "id": 1124,
+                "aisle": "Milk, Eggs, Other Dairy",
+                "image": "egg-whites.jpg",
+                "consistency": "SOLID",
+                "name": "egg whites",
+                "original": "4 large egg whites",
+                "amount": 4.0,
+                "unit": "large"
+            },
+            {
+                "id": 19335,
+                "aisle": "Baking",
+                "image": "sugar-in-bowl.png",
+                "consistency": "SOLID",
+                "name": "sugar",
+                "original": "1 cup sugar",
+                "amount": 1.0,
+                "unit": "cup"
+            },
+            {
+                "id": 18369,
+                "aisle": "Baking",
+                "image": "white-powder.jpg",
+                "consistency": "SOLID",
+                "name": "cornstarch",
+                "original": "1 tsp cornstarch",
+                "amount": 1.0,
+                "unit": "tsp"
+            },
+            {
+                "id": 2048,
+                "aisle": "Oil, Vinegar, Salad Dressing",
+                "image": "apple-cider-vinegar.jpg",
+                "consistency": "LIQUID",
+                "name": "vinegar",
+                "original": "1 tsp vinegar",
+                "amount": 1.0,
+                "unit": "tsp"
+            },
+            {
+                "id": 2050,
+                "aisle": "Baking",
+                "image": "vanilla-extract.jpg",
+                "consistency": "LIQUID",
+                "name": "vanilla extract",
+                "original": "1 tsp vanilla extract",
+                "amount": 1.0,
+                "unit": "tsp"
+            },
+            {
+                "id": 1053,
+                "aisle": "Milk, Eggs, Other Dairy",
+                "image": "whipped-cream.jpg",
+                "consistency": "SOLID",
+                "name": "whipped cream",
+                "original": "1 cup whipped cream",
+                "amount": 1.0,
+                "unit": "cup"
+            },
+            {
+                "id": 9226,
+                "aisle": "Produce",
+                "image": "strawberries.png",
+                "consistency": "SOLID",
+                "name": "strawberries",
+                "original": "1 cup fresh strawberries, sliced",
+                "amount": 1.0,
+                "unit": "cup"
+            }
+        ],
+        "servings": 8
+    }
+]
