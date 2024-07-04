@@ -8,6 +8,7 @@ const recipe_utils = require("./utils/recipes_utils");
  * Authenticate all incoming requests by middleware
  */
 router.use(async function (req, res, next) {
+  console.log("user id is: ", req.session.user_id)
   if (req.session && req.session.user_id) {
     DButils.execQuery("SELECT user_id FROM users").then((users) => {
       if (users.find((x) => x.user_id === req.session.user_id)) {
@@ -137,6 +138,7 @@ router.get('/lastview', async (req, res, next) => {
 router.post('/myrecipes', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
+    console.log("this is user Id: ", user_id)
     const title = req.body.title;
     const image = req.body.image;
     const instructions = req.body.instructions;
