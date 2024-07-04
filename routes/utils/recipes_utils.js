@@ -77,15 +77,19 @@ async function searchRecipe(recipeName, cuisine, diet, intolerance, number) {
 }
 
 
-async function getRandomRecipes(number=3) {
+async function getRandomRecipes(number = 3, includeTags = '', excludeTags = '', includeNutrition = false) {
     const params = {
         apiKey: process.env.spooncular_apiKey,
         number: number,
+        tags: includeTags,
+        excludeTags: excludeTags,
+        includeNutrition: includeNutrition
     };
 
     try {
-        const response = await axios.get(`${api_domain}/random`, { params });
-        return response.data.results.map(recipe => ({
+        const response = await axios.get(`${api_domain}/recipes/random`, { params });
+        console.log("API response data:", response.data); // Add logging
+        return response.data.recipes.map(recipe => ({
             id: recipe.id,
             title: recipe.title,
             readyInMinutes: recipe.readyInMinutes,

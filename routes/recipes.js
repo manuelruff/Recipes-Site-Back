@@ -39,17 +39,21 @@ router.get("/:recipeId", async (req, res, next) => {
 
 /**
  * This path returns 3 random recipes to use when the site is opens
- * this is not working.....
  */
 router.get("/random", async (req, res, next) => {
   try {
-    const number = req.query.number;
-    const results = await recipes_utils.getRandomRecipes(number);
+    const number = req.query.number || 3; // Default to 3 if not provided
+    const includeTags = req.query.includeTags || ''; // Default to empty string if not provided
+    const excludeTags = req.query.excludeTags || ''; // Default to empty string if not provided
+    const includeNutrition = req.query.includeNutrition === 'true'; // Convert to boolean
+
+    const results = await recipes_utils.getRandomRecipes(number, includeTags, excludeTags, includeNutrition);
     res.send(results);
   } catch (error) {
+    console.error("Failed to get random recipes:", error);
     next(error);
   }
-}); // <-- Missing closing bracket added here
+});
 
 
 module.exports = router;
