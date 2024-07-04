@@ -134,7 +134,16 @@ router.get('/lastview', async (req, res, next) => {
 router.post('/myrecipes', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    const { title, image, instructions, readyInMinutes, servings, glutenFree, vegan, vegetarian, ingredients } = req.body;
+    const title = req.body.title;
+    const image = req.body.image;
+    const instructions = req.body.instructions;
+    const readyInMinutes = req.body.readyInMinutes;
+    const servings = req.body.servings;
+    const glutenFree = req.body.glutenFree;
+    const vegan = req.body.vegan;
+    const vegetarian = req.body.vegetarian;
+    const ingredients = req.body.ingredients;
+
     
     // Insert the new recipe into the MyRecipes table and get the new recipe_id
     const recipe_id = await user_utils.addRecipe({

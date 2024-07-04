@@ -85,18 +85,12 @@ async function getLastViews(user_id) {
 
 async function addRecipe({ user_id, title, image, readyInMinutes, servings, glutenFree, vegan, vegetarian }) {
   try {
-    console.log("Inserting recipe with values:", { user_id, title, image, readyInMinutes, servings, glutenFree, vegan, vegetarian });
-
     const query = `
       INSERT INTO MyRecipes (user_id, title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian)
       VALUES ('${user_id}', '${title}', '${image}', ${readyInMinutes}, ${servings}, ${glutenFree}, ${vegan}, ${vegetarian})
     `;
-    console.log("Executing query:", query);
-
     const result = await DButils.execQuery(query);
     const recipeId = result.insertId;
-    console.log("Inserted recipe ID:", recipeId);
-
     return recipeId;
   } catch (error) {
     console.error("Error inserting recipe:", error);
@@ -106,12 +100,10 @@ async function addRecipe({ user_id, title, image, readyInMinutes, servings, glut
 
 async function addInstruction(recipe_id, instruction, instruction_number) {
   try {
-    console.log("Inserting instruction with values:", { recipe_id, instruction, instruction_number });
     const query = `
       INSERT INTO Instructions (recipe_id, instruction, instruction_number)
       VALUES (${recipe_id}, '${instruction}', ${instruction_number})
     `;
-    console.log("Executing instruction query:", query);
     await DButils.execQuery(query);
   } catch (error) {
     console.error("Error inserting instruction:", error);
@@ -121,12 +113,10 @@ async function addInstruction(recipe_id, instruction, instruction_number) {
 
 async function addIngredient(recipe_id, ingredient_name, amount) {
   try {
-    console.log("Inserting ingredient with values:", { recipe_id, ingredient_name, amount });
     const query = `
       INSERT INTO Ingredients (recipe_id, ingredient_name, amount)
       VALUES (${recipe_id}, '${ingredient_name}', '${amount}')
     `;
-    console.log("Executing ingredient query:", query);
     await DButils.execQuery(query);
   } catch (error) {
     console.error("Error inserting ingredient:", error);
@@ -135,18 +125,12 @@ async function addIngredient(recipe_id, ingredient_name, amount) {
 }
 async function getUserRecipes(user_id) {
   try {
-    console.log("Fetching recipes for user_id:", user_id);
-
     const recipesQuery = `
       SELECT recipe_id, title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian
       FROM MyRecipes 
       WHERE user_id = ${user_id}
     `;
-    console.log("Executing query:", recipesQuery);
-
     const recipes = await DButils.execQuery(recipesQuery);
-    console.log("Recipes found:", recipes);
-
     if (recipes.length === 0) {
       console.log("No recipes found for user_id:", user_id);
       return [];
@@ -159,24 +143,15 @@ async function getUserRecipes(user_id) {
         WHERE recipe_id = ${recipe.recipe_id} 
         ORDER BY instruction_number
       `;
-      console.log("Executing instructions query:", instructionsQuery);
-
       const instructions = await DButils.execQuery(instructionsQuery);
-
       const ingredientsQuery = `
         SELECT ingredient_name, amount 
         FROM Ingredients 
         WHERE recipe_id = ${recipe.recipe_id}
       `;
-      console.log("Executing ingredients query:", ingredientsQuery);
-
       const ingredients = await DButils.execQuery(ingredientsQuery);
-
       recipe.instructions = instructions.map(i => i.instruction);
       recipe.ingredients = ingredients;
-
-      console.log(`Recipe ID ${recipe.recipe_id} - Instructions:`, recipe.instructions);
-      console.log(`Recipe ID ${recipe.recipe_id} - Ingredients:`, recipe.ingredients);
     }
 
     return recipes;
@@ -185,9 +160,6 @@ async function getUserRecipes(user_id) {
     throw error;
   }
 }
-
-
-
 
 async function getFamily(user_id) {
   // Fetch the last viewed recipe IDs
