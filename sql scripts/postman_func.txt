@@ -41,3 +41,12 @@ http://localhost:80/recipes/search
     "intolerance": "",
     "number": 10
   }
+
+post
+http://localhost:80/users/lastview
+ {
+    "recipeId": 1
+  }
+
+get
+http://localhost:80/users/lastview

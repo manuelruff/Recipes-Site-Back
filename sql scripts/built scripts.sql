@@ -31,7 +31,7 @@ CREATE TABLE UserMeals (
 );
 
 -- Create User Last View Table
-CREATE TABLE UserLastView (
+CREATE TABLE userlastview (
     user_id INT NOT NULL,
     lastView1 INT,
     lastView2 INT,

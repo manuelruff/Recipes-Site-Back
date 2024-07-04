@@ -1,3 +1,4 @@
+const { use } = require("../user");
 const DButils = require("./DButils");
 const recipes_utils = require("./recipes_utils");
 
@@ -38,24 +39,25 @@ async function removeFromMeal(user_id, recipe_id) {
 // last view code - Omri
 async function markAsLastView(user_id, recipe_id) {
   // Get the current last views for the user
-  let result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM UserLastView WHERE user_id = ${user_id}`);
+  let result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM userlastview WHERE user_id = ${user_id}`);
 
   if (result.length === 0) {
       // User not found in UserLastView, insert new row
-      await DButils.execQuery(`INSERT INTO UserLastView (user_id, LastView1) VALUES (${user_id}, ${recipe_id})`);
+      await DButils.execQuery(`INSERT INTO userlastview (user_id, LastView1) VALUES (${user_id}, ${recipe_id})`);
   } else {
       // User found, update the views
       let { LastView1, LastView2 } = result[0];
       
       await DButils.execQuery(`
-          UPDATE UserLastView
+          UPDATE userlastview
           SET LastView1 = ${recipe_id},
-              LastView2 = ${LastView1},
-              LastView3 = ${LastView2}
+              LastView2 = ${LastView1 !== null ? LastView1 : 'NULL'},
+              LastView3 = ${LastView2 !== null ? LastView2 : 'NULL'}
           WHERE user_id = ${user_id}
       `);
   }
 }
+
 
 
 async function getLastViews(user_id) {
