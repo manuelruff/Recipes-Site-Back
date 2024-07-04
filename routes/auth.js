@@ -55,10 +55,10 @@ router.post("/Login", async (req, res, next) => {
     }
     console.log("user.user_id: ", user.username);
     // Set cookie
-    console.log('Login successful:', user.username, 'User ID:', user.user_id);
+    // console.log('Login successful:', user.username, 'User ID:', user.user_id);
     req.session.user_id = user.user_id;
     // Debug: Log the session ID and the content to confirm correct setup
-    console.log('Session ID after setting user_id:', req.session.user_id);
+    // console.log('Session ID after setting user_id:', req.session.user_id);
     // return cookie
     res.status(200).send({ message: "login succeeded", success: true });
   } catch (error) {
