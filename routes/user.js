@@ -134,30 +134,11 @@ router.get('/lastview', async (req, res, next) => {
 router.post('/myrecipes', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    console.log("Request body:", req.body); // Log the entire request body
-
     const { title, image, instructions, readyInMinutes, servings, glutenFree, vegan, vegetarian, ingredients } = req.body;
     
-    console.log("Title:", title);
-    console.log("Image:", image);
-    console.log("Ready In Minutes:", readyInMinutes);
-    console.log("Servings:", servings);
-    console.log("Gluten Free:", glutenFree);
-    console.log("Vegan:", vegan);
-    console.log("Vegetarian:", vegetarian);
-    console.log("Instructions:", instructions);
-    console.log("Ingredients:", ingredients);
-
-    // Ensure instructions and ingredients are arrays
-    if (!Array.isArray(instructions)) {
-      throw new TypeError("Instructions should be an array");
-    }
-    if (!Array.isArray(ingredients)) {
-      throw new TypeError("Ingredients should be an array");
-    }
-
-    // Insert the new recipe into the Recipes table and get the new recipe_id
+    // Insert the new recipe into the MyRecipes table and get the new recipe_id
     const recipe_id = await user_utils.addRecipe({
+      user_id,
       title,
       image,
       readyInMinutes,
@@ -166,7 +147,7 @@ router.post('/myrecipes', async (req, res, next) => {
       vegan,
       vegetarian
     });
-
+    
     // Insert instructions
     await Promise.all(instructions.map((instruction, index) => 
       user_utils.addInstruction(recipe_id, instruction.text, index + 1)
@@ -179,7 +160,6 @@ router.post('/myrecipes', async (req, res, next) => {
     
     res.status(200).send("Recipe successfully added");
   } catch (error) {
-    console.error("Error in /myrecipes:", error);
     next(error);
   }
 });
@@ -189,9 +169,14 @@ router.post('/myrecipes', async (req, res, next) => {
 router.get('/myrecipes', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
+    console.log("Fetching recipes for user_id:", user_id);
+
     const recipes = await user_utils.getUserRecipes(user_id);
+    console.log("Fetched recipes:", recipes);
+
     res.status(200).send(recipes);
   } catch (error) {
+    console.error("Error in /myrecipes:", error);
     next(error);
   }
 });

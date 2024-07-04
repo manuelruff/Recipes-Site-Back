@@ -83,13 +83,13 @@ async function getLastViews(user_id) {
   }
 }
 
-async function addRecipe({ title, image, readyInMinutes, servings, glutenFree, vegan, vegetarian }) {
+async function addRecipe({ user_id, title, image, readyInMinutes, servings, glutenFree, vegan, vegetarian }) {
   try {
-    console.log("Inserting recipe with values:", { title, image, readyInMinutes, servings, glutenFree, vegan, vegetarian });
+    console.log("Inserting recipe with values:", { user_id, title, image, readyInMinutes, servings, glutenFree, vegan, vegetarian });
 
     const query = `
-      INSERT INTO Recipes (title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian)
-      VALUES ('${title}', '${image}', ${readyInMinutes}, ${servings}, ${glutenFree}, ${vegan}, ${vegetarian})
+      INSERT INTO MyRecipes (user_id, title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian)
+      VALUES ('${user_id}', '${title}', '${image}', ${readyInMinutes}, ${servings}, ${glutenFree}, ${vegan}, ${vegetarian})
     `;
     console.log("Executing query:", query);
 
@@ -135,27 +135,48 @@ async function addIngredient(recipe_id, ingredient_name, amount) {
 }
 async function getUserRecipes(user_id) {
   try {
-    const recipes = await DButils.execQuery(
-      `SELECT R.recipe_id, R.title, R.image_url, R.ready_in_minutes, R.servings, R.gluten_free, R.vegan, R.vegetarian
-       FROM Recipes R
-       JOIN UserMeals UM ON R.recipe_id = UM.recipe_id
-       WHERE UM.user_id = ?`,
-      [user_id]
-    );
+    console.log("Fetching recipes for user_id:", user_id);
+
+    const recipesQuery = `
+      SELECT recipe_id, title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian
+      FROM MyRecipes 
+      WHERE user_id = ${user_id}
+    `;
+    console.log("Executing query:", recipesQuery);
+
+    const recipes = await DButils.execQuery(recipesQuery);
+    console.log("Recipes found:", recipes);
+
+    if (recipes.length === 0) {
+      console.log("No recipes found for user_id:", user_id);
+      return [];
+    }
 
     for (const recipe of recipes) {
-      const instructions = await DButils.execQuery(
-        `SELECT instruction, instruction_number FROM Instructions WHERE recipe_id = ? ORDER BY instruction_number`,
-        [recipe.recipe_id]
-      );
+      const instructionsQuery = `
+        SELECT instruction, instruction_number 
+        FROM Instructions 
+        WHERE recipe_id = ${recipe.recipe_id} 
+        ORDER BY instruction_number
+      `;
+      console.log("Executing instructions query:", instructionsQuery);
 
-      const ingredients = await DButils.execQuery(
-        `SELECT ingredient_name, amount FROM Ingredients WHERE recipe_id = ?`,
-        [recipe.recipe_id]
-      );
+      const instructions = await DButils.execQuery(instructionsQuery);
+
+      const ingredientsQuery = `
+        SELECT ingredient_name, amount 
+        FROM Ingredients 
+        WHERE recipe_id = ${recipe.recipe_id}
+      `;
+      console.log("Executing ingredients query:", ingredientsQuery);
+
+      const ingredients = await DButils.execQuery(ingredientsQuery);
 
       recipe.instructions = instructions.map(i => i.instruction);
       recipe.ingredients = ingredients;
+
+      console.log(`Recipe ID ${recipe.recipe_id} - Instructions:`, recipe.instructions);
+      console.log(`Recipe ID ${recipe.recipe_id} - Ingredients:`, recipe.ingredients);
     }
 
     return recipes;
