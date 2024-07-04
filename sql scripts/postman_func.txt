@@ -51,9 +51,34 @@ http://localhost:80/users/lastview
 get
 http://localhost:80/users/lastview
 
+post
+http://localhost:80/users/myrecipes
+{
+    "title": "Chocolate Cake",
+    "image": "http://example.com/image.jpg",
+    "instructions": [
+        {"text": "Preheat the oven to 350 degrees F."},
+        {"text": "Mix the flour and sugar together."},
+        {"text": "Bake for 30 minutes."}
+    ],
+    "readyInMinutes": 60,
+    "servings": 8,
+    "glutenFree": false,
+    "vegan": false,
+    "vegetarian": true,
+    "ingredients": [
+        {"name": "Flour", "amount": "2 cups"},
+        {"name": "Sugar", "amount": "1 cup"},
+        {"name": "Eggs", "amount": "3"}
+    ]
+}
+
+get
+http://localhost:80/users/myrecipes
 
 get
 http://localhost:80/recipes/random
  {
     "number": 4
   }
+

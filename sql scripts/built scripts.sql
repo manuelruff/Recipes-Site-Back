@@ -14,6 +14,18 @@ CREATE TABLE users (
     password VARCHAR(60) NOT NULL
 );
 
+-- Create Ingredients Table
+CREATE TABLE Recipes (
+    recipe_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    ready_in_minutes INT NOT NULL,
+    servings INT NOT NULL,
+    gluten_free BOOLEAN DEFAULT FALSE,
+    vegan BOOLEAN DEFAULT FALSE,
+    vegetarian BOOLEAN DEFAULT FALSE
+);
+
 -- Create Favorite Recipes Table
 CREATE TABLE favoriterecipes (
     user_id INT NOT NULL,
@@ -58,16 +70,6 @@ CREATE TABLE Ingredients (
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id)
 );
 
--- Create Ingredients Table
-CREATE TABLE Recipes (
-    recipe_id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    image_url VARCHAR(255) NOT NULL,
-    ready_in_minutes INT NOT NULL,
-    servings INT NOT NULL,
-    gluten_free BOOLEAN DEFAULT FALSE,
-    vegan BOOLEAN DEFAULT FALSE,
-    vegetarian BOOLEAN DEFAULT FALSE
-);
+
 
 

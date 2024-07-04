@@ -128,6 +128,73 @@ router.get('/lastview', async (req, res, next) => {
   }
 });
 
+/**
+ * This path adds a new recipe for the logged-in user
+ */
+router.post('/myrecipes', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    console.log("Request body:", req.body); // Log the entire request body
+
+    const { title, image, instructions, readyInMinutes, servings, glutenFree, vegan, vegetarian, ingredients } = req.body;
+    
+    console.log("Title:", title);
+    console.log("Image:", image);
+    console.log("Ready In Minutes:", readyInMinutes);
+    console.log("Servings:", servings);
+    console.log("Gluten Free:", glutenFree);
+    console.log("Vegan:", vegan);
+    console.log("Vegetarian:", vegetarian);
+    console.log("Instructions:", instructions);
+    console.log("Ingredients:", ingredients);
+
+    // Ensure instructions and ingredients are arrays
+    if (!Array.isArray(instructions)) {
+      throw new TypeError("Instructions should be an array");
+    }
+    if (!Array.isArray(ingredients)) {
+      throw new TypeError("Ingredients should be an array");
+    }
+
+    // Insert the new recipe into the Recipes table and get the new recipe_id
+    const recipe_id = await user_utils.addRecipe({
+      title,
+      image,
+      readyInMinutes,
+      servings,
+      glutenFree,
+      vegan,
+      vegetarian
+    });
+
+    // Insert instructions
+    await Promise.all(instructions.map((instruction, index) => 
+      user_utils.addInstruction(recipe_id, instruction.text, index + 1)
+    ));
+    
+    // Insert ingredients
+    await Promise.all(ingredients.map(({ name, amount }) => 
+      user_utils.addIngredient(recipe_id, name, amount)
+    ));
+    
+    res.status(200).send("Recipe successfully added");
+  } catch (error) {
+    console.error("Error in /myrecipes:", error);
+    next(error);
+  }
+});
+/**
+ * This path returns the recipes for the logged-in user
+ */
+router.get('/myrecipes', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipes = await user_utils.getUserRecipes(user_id);
+    res.status(200).send(recipes);
+  } catch (error) {
+    next(error);
+  }
+});
 
 
 /**
