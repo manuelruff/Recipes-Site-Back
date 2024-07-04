@@ -111,33 +111,35 @@ async function searchRecipe(recipeName, cuisine, diet, intolerance, number) {
     }
 }
 
-
-async function getRandomRecipes(number = 3) {
+async function getRandomRecipes(number) {
     const params = {
-        apiKey: process.env.spooncular_apiKey,
-        number: number,
+      apiKey: process.env.spooncular_apiKey,
+      number: number
     };
-
+  
     try {
-        const url=`${api_domain}/random`;
-        const response = await axios.get(url, { params });
-        console.log(`Making API call to: ${url}`);
-        console.log("API response data:", response.data); // Add logging
-        return response.data.recipes.map(recipe => ({
-            id: recipe.id,
-            title: recipe.title,
-            readyInMinutes: recipe.readyInMinutes,
-            image: recipe.image,
-            aggregateLikes: recipe.aggregateLikes,
-            vegan: recipe.vegan,
-            vegetarian: recipe.vegetarian,
-            glutenFree: recipe.glutenFree
-        }));
+      const url = `${api_domain}/random`;
+      console.log(`Making API call to: ${url} with params:`, params);
+  
+      const response = await axios.get(url, { params });
+      console.log("API response data:", response.data);
+  
+      return response.data.recipes.map(recipe => ({
+        id: recipe.id,
+        title: recipe.title,
+        readyInMinutes: recipe.readyInMinutes,
+        image: recipe.image,
+        aggregateLikes: recipe.aggregateLikes,
+        vegan: recipe.vegan,
+        vegetarian: recipe.vegetarian,
+        glutenFree: recipe.glutenFree
+      }));
     } catch (error) {
-        console.error("Failed to fetch recipes:", error);
-        throw error;
+      console.error("Failed to fetch recipes:", error);
+      throw error;
     }
-}
+  }
+  
 
 
 

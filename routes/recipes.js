@@ -9,11 +9,11 @@ router.get("/", (req, res) => res.send("I'm here"));
  */
 router.get("/search", async (req, res, next) => {
   try {
-    const recipeName = req.query.recipeName;
-    const cuisine = req.query.cuisine;
-    const diet = req.query.diet;
-    const intolerance = req.query.intolerance;
-    const number = req.query.number;
+    const recipeName = req.body.recipeName;
+    const cuisine = req.body.cuisine;
+    const diet = req.body.diet;
+    const intolerance = req.body.intolerance;
+    const number = req.body.number;    
     const results = await recipes_utils.searchRecipe(recipeName, cuisine, diet, intolerance, number);
     res.send(results);
   } catch (error) {
@@ -26,8 +26,10 @@ router.get("/search", async (req, res, next) => {
  */
 router.get("/random", async (req, res, next) => {
   try {
-    const number = req.query.number || 3; // Default to 3 if not provided
-    console.log("********** im at random ***********"); // Add logging
+    const number = req.body.number;
+    console.log(`Received number from query params: ${req.body.number}`);
+    console.log(`Using number for fetching recipes: ${number}`);
+
     const results = await recipes_utils.getRandomRecipes(number);
     res.send(results);
   } catch (error) {
@@ -35,6 +37,7 @@ router.get("/random", async (req, res, next) => {
     next(error);
   }
 });
+
 
 
 /**

@@ -50,3 +50,10 @@ http://localhost:80/users/lastview
 
 get
 http://localhost:80/users/lastview
+
+
+get
+http://localhost:80/recipes/random
+ {
+    "number": 4
+  }
