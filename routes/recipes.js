@@ -43,11 +43,7 @@ router.get("/:recipeId", async (req, res, next) => {
 router.get("/random", async (req, res, next) => {
   try {
     const number = req.query.number || 3; // Default to 3 if not provided
-    const includeTags = req.query.includeTags || ''; // Default to empty string if not provided
-    const excludeTags = req.query.excludeTags || ''; // Default to empty string if not provided
-    const includeNutrition = req.query.includeNutrition === 'true'; // Convert to boolean
-
-    const results = await recipes_utils.getRandomRecipes(number, includeTags, excludeTags, includeNutrition);
+    const results = await recipes_utils.getRandomRecipes(number);
     res.send(results);
   } catch (error) {
     console.error("Failed to get random recipes:", error);
