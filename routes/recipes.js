@@ -26,14 +26,16 @@ router.get("/search", async (req, res, next) => {
  */
 router.get("/random", async (req, res, next) => {
   try {
-    const number = req.body.number;
+    const number = req.query.number; // Use req.query to get query parameters
     const results = await recipes_utils.getRandomRecipes(number);
+    console.log(number);
     res.send(results);
   } catch (error) {
     console.error("Failed to get random recipes:", error);
     next(error);
   }
 });
+
 
 
 
