@@ -32,9 +32,38 @@ async function getRecipesPreview(recipe_ids) {
     }
 }
 
+
 async function getRecipeDetails(recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
-    let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info.data;
+    let {
+        id,
+        title,
+        readyInMinutes,
+        image,
+        aggregateLikes,
+        vegan,
+        vegetarian,
+        glutenFree,
+        analyzedInstructions,
+        extendedIngredients,
+        servings
+    } = recipe_info.data;
+
+    // Flatten the instructions from analyzedInstructions if needed
+    let instructions = analyzedInstructions.map((item) => {
+        return item.steps.map(step => step.step).join(' ');
+    }).join(' ');
+
+    // Map extendedIngredients to a simpler format if necessary
+    let ingredients = extendedIngredients.map(ingredient => {
+        return {
+            id: ingredient.id,
+            name: ingredient.name,
+            original: ingredient.original,
+            amount: ingredient.amount,
+            unit: ingredient.unit
+        };
+    });
 
     return {
         id: id,
@@ -44,7 +73,11 @@ async function getRecipeDetails(recipe_id) {
         popularity: aggregateLikes,
         vegan: vegan,
         vegetarian: vegetarian,
-        glutenFree: glutenFree
+        glutenFree: glutenFree,
+        analyzedInstructions: analyzedInstructions,
+        instructions: instructions,
+        extendedIngredients: ingredients,
+        servings: servings
     };
 }
 
