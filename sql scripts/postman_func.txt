@@ -75,3 +75,10 @@ http://localhost:80/users/myrecipes
 
 get
 http://localhost:80/users/myrecipes
+
+get
+http://localhost:80/recipes/random
+ {
+    "number": 4
+  }
+

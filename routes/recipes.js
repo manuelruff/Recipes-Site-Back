@@ -9,17 +9,31 @@ router.get("/", (req, res) => res.send("I'm here"));
  */
 router.get("/search", async (req, res, next) => {
   try {
-    const recipeName = req.query.recipeName;
-    const cuisine = req.query.cuisine;
-    const diet = req.query.diet;
-    const intolerance = req.query.intolerance;
-    const number = req.query.number;
+    const recipeName = req.body.recipeName;
+    const cuisine = req.body.cuisine;
+    const diet = req.body.diet;
+    const intolerance = req.body.intolerance;
+    const number = req.body.number;    
     const results = await recipes_utils.searchRecipe(recipeName, cuisine, diet, intolerance, number);
     res.send(results);
   } catch (error) {
     next(error);
   }
 }); // <-- Missing closing bracket added here
+
+/**
+ * This path returns 3 random recipes to use when the site is opens
+ */
+router.get("/random", async (req, res, next) => {
+  try {
+    const number = req.body.number;
+    const results = await recipes_utils.getRandomRecipes(number);
+    res.send(results);
+  } catch (error) {
+    console.error("Failed to get random recipes:", error);
+    next(error);
+  }
+});
 
 
 
@@ -37,23 +51,6 @@ router.get("/:recipeId", async (req, res, next) => {
 
 
 
-/**
- * This path returns 3 random recipes to use when the site is opens
- */
-router.get("/random", async (req, res, next) => {
-  try {
-    const number = req.query.number || 3; // Default to 3 if not provided
-    const includeTags = req.query.includeTags || ''; // Default to empty string if not provided
-    const excludeTags = req.query.excludeTags || ''; // Default to empty string if not provided
-    const includeNutrition = req.query.includeNutrition === 'true'; // Convert to boolean
-
-    const results = await recipes_utils.getRandomRecipes(number, includeTags, excludeTags, includeNutrition);
-    res.send(results);
-  } catch (error) {
-    console.error("Failed to get random recipes:", error);
-    next(error);
-  }
-});
 
 
 module.exports = router;
