@@ -129,4 +129,22 @@ router.get('/lastview', async (req, res, next) => {
 });
 
 
+
+/**
+ * This path returns the family recipes for the logged-in user
+ */
+router.get('/lastview', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const lastview = await user_utils.getLastViews(user_id);
+    res.status(200).send(lastview);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
+
+
 module.exports = router;
