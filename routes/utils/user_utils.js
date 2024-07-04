@@ -38,11 +38,11 @@ async function removeFromMeal(user_id, recipe_id) {
 // last view code - Omri
 async function markAsLastView(user_id, recipe_id) {
   // Get the current last views for the user
-  let result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM UserLastView WHERE user_id = ${user_id}`);
+  let result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM userlastview WHERE user_id = ${user_id}`);
 
   if (result.length === 0) {
       // User not found in UserLastView, insert new row
-      await DButils.execQuery(`INSERT INTO UserLastView (user_id, LastView1) VALUES (${user_id}, ${recipe_id})`);
+      await DButils.execQuery(`INSERT INTO userlastview (user_id, LastView1) VALUES (${user_id}, ${recipe_id})`);
   } else {
       // User found, update the views
       let { LastView1, LastView2 } = result[0];
