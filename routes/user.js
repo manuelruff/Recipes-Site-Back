@@ -1,8 +1,8 @@
-var express = require("express");
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const DButils = require("./utils/DButils");
 const user_utils = require("./utils/user_utils");
-const recipe_utils = require("./utils/recipes_utils"); // Ensure the path is correct
+const recipe_utils = require("./utils/recipes_utils");
 
 /**
  * Authenticate all incoming requests by middleware
@@ -48,6 +48,7 @@ router.get('/favorites', async (req, res, next) => {
     next(error);
   }
 });
+
 /**
  * This path deletes the favorite recipe from the logged-in user
  */
@@ -74,8 +75,9 @@ router.get('/meals', async (req, res, next) => {
     next(error);
   }
 });
+
 /**
- * This path adds the revipe to meal plan for the logged-in user
+ * This path adds the recipe to meal plan for the logged-in user
  */
 router.post('/meals', async (req, res, next) => {
   try {
@@ -87,8 +89,9 @@ router.post('/meals', async (req, res, next) => {
     next(error);
   }
 });
+
 /**
- * This path deletes the revipe from meal plan for the logged-in user
+ * This path deletes the recipe from meal plan for the logged-in user
  */
 router.delete('/meals', async (req, res, next) => {
   try {
@@ -102,14 +105,14 @@ router.delete('/meals', async (req, res, next) => {
 });
 
 /**
- * This path adds the recipe to laseViewed for the logged-in user
+ * This path adds the recipe to last viewed for the logged-in user
  */
 router.post('/lastview', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const recipe_id = req.body.recipeId;
     await user_utils.markAsLastView(user_id, recipe_id);
-    res.status(200).send("The Recipe successfully added to last View");
+    res.status(200).send("The Recipe successfully added to last view");
   } catch (error) {
     next(error);
   }
@@ -172,6 +175,7 @@ router.post('/myrecipes', async (req, res, next) => {
     next(error);
   }
 });
+
 /**
  * This path returns the recipes for the logged-in user
  */
@@ -189,22 +193,6 @@ router.get('/myrecipes', async (req, res, next) => {
     next(error);
   }
 });
-
-
-/**
- * This path returns the family recipes for the logged-in user
- */
-router.get('/lastview', async (req, res, next) => {
-  try {
-    const user_id = req.session.user_id;
-    const lastview = await user_utils.getLastViews(user_id);
-    res.status(200).send(lastview);
-  } catch (error) {
-    next(error);
-  }
-});
-
-
 
 
 

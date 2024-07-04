@@ -161,29 +161,6 @@ async function getUserRecipes(user_id) {
   }
 }
 
-async function getFamily(user_id) {
-  // Fetch the last viewed recipe IDs
-  const result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM UserLastView WHERE user_id='${user_id}'`);
-
-  if (result.length === 0) {
-      // If no records are found, return an empty array
-      return [];
-  }
-
-  const { LastView1, LastView2, LastView3 } = result[0];
-  const lastViewIds = [LastView1, LastView2, LastView3].filter(id => id !== null);
-
-  // Fetch the details of each recipe
-  const lastViewDetailsPromises = lastViewIds.map(recipe_id => recipes_utils.getRecipeDetails(recipe_id));
-
-  try {
-      const lastViewDetails = await Promise.all(lastViewDetailsPromises);
-      return lastViewDetails;
-  } catch (error) {
-      console.error("Failed to fetch last viewed recipes:", error);
-      throw error;
-  }
-}
 
 module.exports = {
     markAsFavorite,
@@ -194,7 +171,6 @@ module.exports = {
     removeFromMeal,
     markAsLastView,
     getLastViews,
-    getFamily,
     addRecipe,
     addInstruction,
     addIngredient,
