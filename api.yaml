@@ -1,130 +1,26 @@
--- Active: 1719921722230@@localhost@3306
 openapi: 3.0.0
 servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/MANUEL42994299/2.2/1.0.0
 info:
-  description: This is a simple API
+  description: This is an API for a recipes site
   version: "1.0.0"
-  title: Simple Inventory API
+  title: Recipes API
 tags:
-  - name: user
-    description: Operations about user
-  - name: recipe
+  - name: auth
+    description: Operations about authentication
+  - name: recipes
     description: Operations about recipes
-  - name: navigation
-    description:  Operations about navigation in the site
+  - name: users
+    description: Operations about users
 
 
 paths:
-  /:
-    get:
-      tags:
-        - recipe
-      summary: main page recipe preview
-      operationId: mainPage
-      description: |
-        you can get some random recipes to preview in the main page
-      parameters:
-        - in: query
-          name: lastSeen
-          description: do i need to fetch the last seen for a loged in user
-          schema:
-            type: boolean
-          required: false
-      responses:
-        '200':
-          description: some recipes preview
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/recipe_preview'
-        '404':
-          description: recipes not found
-          content:
-            application/json:
-              schema:
-                type: string
-                example: recipes not found
+# auth
+  /auth/Register:
     post:
       tags:
-        - user
-      summary: log in information
-      operationId: logInMainPage
-      description: |
-        you can log in from the main page
-      parameters:
-        - in: query
-          name: username
-          description: your username
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: password
-          description: your password
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: log in successful
-          content:
-            application/json:
-              schema:
-                type: string
-                example: log in successful
-        '404':
-          description: log in failed
-          content:
-            application/json:
-              schema:
-                type: string
-                example: log in failed
-  
-  /login:
-    post:
-      tags:
-        - user
-      summary: log in
-      operationId: logIn
-      description: |
-        log in to the site
-      parameters:
-        - in: query
-          name: username
-          description: your username
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: password
-          description: your password
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: log in successful
-          content:
-            application/json:
-              schema:
-                type: string
-                example: log in successful
-        '404':
-          description: log in failed
-          content:
-            application/json:
-              schema:
-                type: string
-                example: log in failed
-
-  /register:
-    post:
-      tags:
-        - user
+        - auth
       summary: register
       operationId: register
       description: |
@@ -194,11 +90,49 @@ paths:
                   message:
                     type: string
                     example: Username already exists
+
+  /auth/Login:
+    post:
+      tags:
+        - auth
+      summary: log in
+      operationId: logIn
+      description: |
+        log in to the site
+      parameters:
+        - in: query
+          name: username
+          description: your username
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: password
+          description: your password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: log in successful
+          content:
+            application/json:
+              schema:
+                type: string
+                example: log in successful
+        '404':
+          description: log in failed
+          content:
+            application/json:
+              schema:
+                type: string
+                example: log in failed
   
-  /search:
+# recipes
+  /recipes/search:
     get:
       tags:
-        - recipe
+        - recipes
       summary: searches for recipe
       operationId: searchForRecipe
       description: |
@@ -254,11 +188,10 @@ paths:
                 type: string
                 example: recipe with these filters or text not found
 
-  
-  /recipe/{recipeId}:
+  /recipes/{recipeId}:
     get:
       tags:
-        - recipe
+        - recipes
       summary: get recipe by id
       operationId: getRecipeById
       description: |
@@ -292,74 +225,32 @@ paths:
               schema:
                 type: string
                 example: recipe information not found
-    post:
+
+  /recipes/random:
+    get:
       tags:
-        - recipe
-      summary: Add recipe to user's favorites or meal plan, based on the button clicked
-      operationId: addRecipeAction
-      description: Add a recipe to user's favorites or meal plan.
-      parameters:
-        - in: path
-          name: recipeId
-          description: ID of recipe to add to favorites or meal plan
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - in: query
-          name: action
-          description: Action to perform (favorite or meal)
-          required: true
-          schema:
-            type: string
-            enum:
-              - favorite
-              - meal
-        - in: query
-          name: username
-          description: Username of user to add recipe to their favorites or meal plan
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Recipe successfully added to favorites or meal plan
-        '404':
-          description: Recipe or user not found
-          content:
-            application/json:
-              schema:
-                type: string
-                example: Recipe or user not found
-    delete:
-      tags:
-        - recipe
-      summary: remove recipe from user's favorite
-      operationId: removeRecipeFromFavorites
+        - recipes
+      summary: get random recipes for main page recipe preview
+      operationId: getRandomRecipes
       description: |
-        remove a recipe from user's favorite
+        you can get some random recipes to preview in the main page
       parameters:
-        - in: path
-          name: recipeId
-          description: ID of recipe to remove from favorite
-          required: true
+        - in: query
+          name: limit
+          description: number of randoms you want to get back 
           schema:
             type: integer
             format: int32
-        - in: query
-          name: username
-          description: username of user to remove recipe from his/her favorite
-          required: true
-          schema:
-            type: string
+          required: false
       responses:
         '200':
-          description: recipe removed from favorite
+          description: random recipe
           content:
             application/json:
               schema:
-                type: string
-                example: recipe removed from favorite
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipe_preview'
         '404':
           description: recipe not found
           content:
@@ -368,21 +259,16 @@ paths:
                 type: string
                 example: recipe not found
 
-  /favorite:
+
+# users
+  /users/favorites:
     get:
       tags:
-        - recipe
+        - users
       summary: get user's favorite recipes
       operationId: getFavoriteRecipes
       description: |
         get user's favorite recipes 
-      parameters:
-        - in: query
-          name: username
-          description: username of user to get his/her favorite recipes
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: user's favorite recipes
@@ -399,6 +285,143 @@ paths:
               schema:
                 type: string
                 example: user not found
+    post:
+      tags:
+        - users
+      summary: Add recipe to user's favorites 
+      operationId: addRecipeToFavorites
+      description: Add a recipe to user's favorites
+      parameters:
+        - in: query
+          name: recipeId
+          description: ID of recipe to add to favorites
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Recipe successfully added to favorites or meal plan
+        '404':
+          description: Recipe or user not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Recipe or user not found
+    delete:
+      tags:
+        - users
+      summary: remove recipe from user's favorite
+      operationId: removeRecipeFromFavorites
+      description: |
+        remove a recipe from user's favorite
+      parameters:
+        - in: query
+          name: recipeId
+          description: ID of recipe to remove from favorite
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: recipe removed from favorite
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe removed from favorite
+        '404':
+          description: recipe not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe not found
+ 
+  /users/meals:
+    get:
+      tags:
+        - users
+      summary: get user's meal plan
+      operationId: getMealPlan
+      description: |
+        get user's meal plan
+      responses:
+        '200':
+          description: user's meal plan
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipe_preview'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: user not found
+    post:
+      tags:
+        - users
+      summary: Add recipe to user's meal plan 
+      operationId: addRecipeToMealPlan
+      description: Add a recipe to user's meal plan
+      parameters:
+        - in: query
+          name: recipeId
+          description: ID of recipe to add to meal plan
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Recipe successfully added to favorites or meal plan
+        '404':
+          description: Recipe or user not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Recipe or user not found
+    delete:
+      tags:
+        - users
+      summary: remove recipe from user's meal plan
+      operationId: removeRecipeFromMealPlan
+      description: |
+        remove a recipe from user's meal plan
+      parameters:
+        - in: query
+          name: recipeId
+          description: ID of recipe to remove from meal plan
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: recipe removed from meal plan
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe removed from meal plan
+        '404':
+          description: recipe not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: recipe not found
+
+  
+
+
 
           
   /myRecipe:
