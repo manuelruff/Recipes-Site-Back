@@ -39,3 +39,35 @@ CREATE TABLE userlastview (
     PRIMARY KEY (user_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+-- Create Instrucntions Table
+CREATE TABLE Instructions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_id INT NOT NULL,
+    instruction TEXT NOT NULL,
+    instruction_number INT NOT NULL,
+    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id)
+);
+
+-- Create Ingredients Table
+CREATE TABLE Ingredients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_id INT NOT NULL,
+    ingredient_name VARCHAR(255) NOT NULL,
+    amount VARCHAR(255) NOT NULL,
+    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id)
+);
+
+-- Create Ingredients Table
+CREATE TABLE Recipes (
+    recipe_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    ready_in_minutes INT NOT NULL,
+    servings INT NOT NULL,
+    gluten_free BOOLEAN DEFAULT FALSE,
+    vegan BOOLEAN DEFAULT FALSE,
+    vegetarian BOOLEAN DEFAULT FALSE
+);
+
+
