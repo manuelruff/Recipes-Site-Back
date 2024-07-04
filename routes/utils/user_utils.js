@@ -36,7 +36,7 @@ async function removeFromMeal(user_id, recipe_id) {
   await DButils.execQuery(`DELETE FROM usermeals WHERE user_id='${user_id}' AND recipe_id=${recipe_id}`);
 }
 
-// last view code - Omri
+// last view code
 async function markAsLastView(user_id, recipe_id) {
   // Get the current last views for the user
   let result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM userlastview WHERE user_id = ${user_id}`);
@@ -84,6 +84,90 @@ async function getLastViews(user_id) {
   }
 }
 
+async function addRecipe({ title, image, readyInMinutes, servings, glutenFree, vegan, vegetarian }) {
+  try {
+    console.log("Inserting recipe with values:", { title, image, readyInMinutes, servings, glutenFree, vegan, vegetarian });
+
+    const query = `
+      INSERT INTO Recipes (title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian)
+      VALUES ('${title}', '${image}', ${readyInMinutes}, ${servings}, ${glutenFree}, ${vegan}, ${vegetarian})
+    `;
+    console.log("Executing query:", query);
+
+    const result = await DButils.execQuery(query);
+    const recipeId = result.insertId;
+    console.log("Inserted recipe ID:", recipeId);
+
+    return recipeId;
+  } catch (error) {
+    console.error("Error inserting recipe:", error);
+    throw error;
+  }
+}
+
+async function addInstruction(recipe_id, instruction, instruction_number) {
+  try {
+    console.log("Inserting instruction with values:", { recipe_id, instruction, instruction_number });
+    const query = `
+      INSERT INTO Instructions (recipe_id, instruction, instruction_number)
+      VALUES (${recipe_id}, '${instruction}', ${instruction_number})
+    `;
+    console.log("Executing instruction query:", query);
+    await DButils.execQuery(query);
+  } catch (error) {
+    console.error("Error inserting instruction:", error);
+    throw error;
+  }
+}
+
+async function addIngredient(recipe_id, ingredient_name, amount) {
+  try {
+    console.log("Inserting ingredient with values:", { recipe_id, ingredient_name, amount });
+    const query = `
+      INSERT INTO Ingredients (recipe_id, ingredient_name, amount)
+      VALUES (${recipe_id}, '${ingredient_name}', '${amount}')
+    `;
+    console.log("Executing ingredient query:", query);
+    await DButils.execQuery(query);
+  } catch (error) {
+    console.error("Error inserting ingredient:", error);
+    throw error;
+  }
+}
+async function getUserRecipes(user_id) {
+  try {
+    const recipes = await DButils.execQuery(
+      `SELECT R.recipe_id, R.title, R.image_url, R.ready_in_minutes, R.servings, R.gluten_free, R.vegan, R.vegetarian
+       FROM Recipes R
+       JOIN UserMeals UM ON R.recipe_id = UM.recipe_id
+       WHERE UM.user_id = ?`,
+      [user_id]
+    );
+
+    for (const recipe of recipes) {
+      const instructions = await DButils.execQuery(
+        `SELECT instruction, instruction_number FROM Instructions WHERE recipe_id = ? ORDER BY instruction_number`,
+        [recipe.recipe_id]
+      );
+
+      const ingredients = await DButils.execQuery(
+        `SELECT ingredient_name, amount FROM Ingredients WHERE recipe_id = ?`,
+        [recipe.recipe_id]
+      );
+
+      recipe.instructions = instructions.map(i => i.instruction);
+      recipe.ingredients = ingredients;
+    }
+
+    return recipes;
+  } catch (error) {
+    console.error("Error fetching user recipes:", error);
+    throw error;
+  }
+}
+
+
+
 
 
 module.exports = {
@@ -94,5 +178,9 @@ module.exports = {
     markAsMeal,
     removeFromMeal,
     markAsLastView,
-    getLastViews
+    getLastViews,
+    addRecipe,
+    addInstruction,
+    addIngredient,
+    getUserRecipes
   };
