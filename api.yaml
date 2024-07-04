@@ -419,7 +419,54 @@ paths:
                 type: string
                 example: recipe not found
 
-  
+  /users/lastview:
+    get:
+      tags:
+        - users
+      summary: get user's last viewed recipes
+      operationId: getLastViewedRecipes
+      description: |
+        get user's last viewed recipes
+      responses:
+        '200':
+          description: user's last viewed recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipe_preview'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: user not found
+    post:
+      tags:
+        - users
+      summary: Add recipe to user's last viewed recipes 
+      operationId: addRecipeToLastViewed
+      description: Add a recipe to user's last viewed recipes
+      parameters:
+        - in: query
+          name: recipeId
+          description: ID of recipe to add to last viewed
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Recipe successfully added to last viewed
+        '404':
+          description: Recipe or user not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Recipe or user not found
 
 
 
