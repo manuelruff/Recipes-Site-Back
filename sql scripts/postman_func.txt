@@ -31,6 +31,9 @@ http://localhost:80/users/favorites
 
 delete
 http://localhost:80/users/favorites
+ {
+    "recipeId": 1
+  }
 
 get
 http://localhost:80/recipes/search
