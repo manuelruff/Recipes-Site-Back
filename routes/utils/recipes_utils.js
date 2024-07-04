@@ -93,8 +93,6 @@ async function searchRecipe(recipeName, cuisine, diet, intolerance, number) {
 
     try {
         const response = await axios.get(`${api_domain}/complexSearch`, { params });
-        console.log(`Making API call to: ${api_domain}/complexSearch`);
-
         return response.data.results.map(recipe => ({
             id: recipe.id,
             title: recipe.title,
@@ -118,12 +116,8 @@ async function getRandomRecipes(number) {
     };
   
     try {
-      const url = `${api_domain}/random`;
-      console.log(`Making API call to: ${url} with params:`, params);
-  
-      const response = await axios.get(url, { params });
-      console.log("API response data:", response.data);
-  
+      const url = `${api_domain}/random`;  
+      const response = await axios.get(url, { params });  
       return response.data.recipes.map(recipe => ({
         id: recipe.id,
         title: recipe.title,

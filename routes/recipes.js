@@ -27,9 +27,6 @@ router.get("/search", async (req, res, next) => {
 router.get("/random", async (req, res, next) => {
   try {
     const number = req.body.number;
-    console.log(`Received number from query params: ${req.body.number}`);
-    console.log(`Using number for fetching recipes: ${number}`);
-
     const results = await recipes_utils.getRandomRecipes(number);
     res.send(results);
   } catch (error) {
