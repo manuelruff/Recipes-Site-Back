@@ -2,7 +2,6 @@
 DROP TABLE IF EXISTS UserMeals;
 DROP TABLE IF EXISTS favoriterecipes;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS UserLastView;
 
 -- Create Users Table
 CREATE TABLE users (
@@ -18,7 +17,7 @@ CREATE TABLE users (
 -- Create Favorite Recipes Table
 CREATE TABLE favoriterecipes (
     user_id INT NOT NULL,
-    recipe_id INT NOT NULL,  -- This needs to reference a 'recipes' table or change
+    recipe_id INT NOT NULL,
     PRIMARY KEY (user_id, recipe_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
@@ -26,8 +25,8 @@ CREATE TABLE favoriterecipes (
 -- Create User Meals Table
 CREATE TABLE UserMeals (
     user_id INT NOT NULL,
-    meal_id INT NOT NULL,  -- This needs to reference a 'meals' table or change
-    PRIMARY KEY (user_id, meal_id),
+    recipe_id INT NOT NULL,
+    PRIMARY KEY (user_id, recipe_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
