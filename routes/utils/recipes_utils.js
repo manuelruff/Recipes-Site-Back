@@ -93,6 +93,8 @@ async function searchRecipe(recipeName, cuisine, diet, intolerance, number) {
 
     try {
         const response = await axios.get(`${api_domain}/complexSearch`, { params });
+        console.log(`Making API call to: ${api_domain}/complexSearch`);
+
         return response.data.results.map(recipe => ({
             id: recipe.id,
             title: recipe.title,
@@ -109,31 +111,17 @@ async function searchRecipe(recipeName, cuisine, diet, intolerance, number) {
     }
 }
 
-async function getRandomRecipes2(number = 3) {
-    try {
-        // Generate an array of random recipe IDs
-        const recipeIds = Array.from({ length: number }, () => Math.floor(Math.random() * 100) + 1);
-        
-        // Use getRecipesPreview to fetch details for all random IDs
-        return await getRecipesPreview(recipeIds);
-    } catch (error) {
-        console.error("Failed to fetch random recipes:", error);
-        throw error;
-    }
-}
-
 
 async function getRandomRecipes(number = 3) {
     const params = {
         apiKey: process.env.spooncular_apiKey,
         number: number,
-        tags: includeTags,
-        excludeTags: excludeTags,
-        includeNutrition: includeNutrition
     };
 
     try {
-        const response = await axios.get(`${api_domain}/random`, { params });
+        const url=`${api_domain}/random`;
+        const response = await axios.get(url, { params });
+        console.log(`Making API call to: ${url}`);
         console.log("API response data:", response.data); // Add logging
         return response.data.recipes.map(recipe => ({
             id: recipe.id,
@@ -150,6 +138,8 @@ async function getRandomRecipes(number = 3) {
         throw error;
     }
 }
+
+
 
 module.exports = {
     getRecipesPreview,

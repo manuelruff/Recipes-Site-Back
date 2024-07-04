@@ -21,6 +21,20 @@ router.get("/search", async (req, res, next) => {
   }
 }); // <-- Missing closing bracket added here
 
+/**
+ * This path returns 3 random recipes to use when the site is opens
+ */
+router.get("/random", async (req, res, next) => {
+  try {
+    const number = req.query.number || 3; // Default to 3 if not provided
+    console.log("********** im at random ***********"); // Add logging
+    const results = await recipes_utils.getRandomRecipes(number);
+    res.send(results);
+  } catch (error) {
+    console.error("Failed to get random recipes:", error);
+    next(error);
+  }
+});
 
 
 /**
@@ -37,19 +51,6 @@ router.get("/:recipeId", async (req, res, next) => {
 
 
 
-/**
- * This path returns 3 random recipes to use when the site is opens
- */
-router.get("/random", async (req, res, next) => {
-  try {
-    const number = req.query.number || 3; // Default to 3 if not provided
-    const results = await recipes_utils.getRandomRecipes(number);
-    res.send(results);
-  } catch (error) {
-    console.error("Failed to get random recipes:", error);
-    next(error);
-  }
-});
 
 
 module.exports = router;
