@@ -582,34 +582,31 @@ paths:
                 type: string
                 example: recipe not added
 
-
-
-
   
-  /user/family:
-    get:
-        tags:
-          - recipe
-        summary: get user's family recipes - in our case the site owner family recipes
-        operationId: getFamilyRecipes
-        description: |
-          get user's family recipes
-        responses:
-          '200':
-            description: user's family recipes
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/recipe_family_view'
-          '404':
-            description: user not found
-            content:
-              application/json:
-                schema:
-                  type: string
-                  example: user not found
+  # /user/family:
+  #   get:
+  #       tags:
+  #         - recipe
+  #       summary: get user's family recipes - in our case the site owner family recipes
+  #       operationId: getFamilyRecipes
+  #       description: |
+  #         get user's family recipes
+  #       responses:
+  #         '200':
+  #           description: user's family recipes
+  #           content:
+  #             application/json:
+  #               schema:
+  #                 type: array
+  #                 items:
+  #                   $ref: '#/components/schemas/recipe_family_view'
+  #         '404':
+  #           description: user not found
+  #           content:
+  #             application/json:
+  #               schema:
+  #                 type: string
+  #                 example: user not found
 
          
 
