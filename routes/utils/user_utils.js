@@ -1,3 +1,4 @@
+const { use } = require("../user");
 const DButils = require("./DButils");
 const recipes_utils = require("./recipes_utils");
 
@@ -48,14 +49,15 @@ async function markAsLastView(user_id, recipe_id) {
       let { LastView1, LastView2 } = result[0];
       
       await DButils.execQuery(`
-          UPDATE UserLastView
+          UPDATE userlastview
           SET LastView1 = ${recipe_id},
-              LastView2 = ${LastView1},
-              LastView3 = ${LastView2}
+              LastView2 = ${LastView1 !== null ? LastView1 : 'NULL'},
+              LastView3 = ${LastView2 !== null ? LastView2 : 'NULL'}
           WHERE user_id = ${user_id}
       `);
   }
 }
+
 
 
 async function getLastViews(user_id) {
