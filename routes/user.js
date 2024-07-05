@@ -185,11 +185,7 @@ router.post('/myrecipes', async (req, res, next) => {
 router.get('/myrecipes', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    console.log("Fetching recipes for user_id:", user_id);
-
     const recipes = await user_utils.getUserRecipes(user_id);
-    console.log("Fetched recipes:", recipes);
-
     res.status(200).send(recipes);
   } catch (error) {
     console.error("Error in /myrecipes:", error);
