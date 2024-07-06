@@ -123,53 +123,19 @@ async function addIngredient(recipe_id, ingredient_name, amount) {
     throw error;
   }
 }
-// async function getUserRecipes2(user_id) {
-//   // do iy like getRecipeDetails in recipe utils
-//   try {
-//     const recipesQuery = `
-//       SELECT recipe_id, title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian
-//       FROM MyRecipes 
-//       WHERE user_id = ${user_id}
-//     `;
-//     const recipes = await DButils.execQuery(recipesQuery);
-//     if (recipes.length === 0) {
-//       console.log("No recipes found for user_id:", user_id);
-//       return [];
-//     }
 
-//     for (const recipe of recipes) {
-//       const myrecipe = true;
-//       const instructionsQuery = `
-//         SELECT instruction, instruction_number 
-//         FROM Instructions 
-//         WHERE recipe_id = ${recipe.recipe_id} 
-//         ORDER BY instruction_number
-//       `;
-//       const instructions = await DButils.execQuery(instructionsQuery);
-//       const ingredientsQuery = `
-//         SELECT ingredient_name, amount 
-//         FROM Ingredients 
-//         WHERE recipe_id = ${recipe.recipe_id}
-//       `;
-//       const ingredients = await DButils.execQuery(ingredientsQuery);
-//       recipe.instructions = instructions.map(i => i.instruction);
-//       recipe.ingredients = ingredients;
-//     }
 
-//     return recipes;
-//   } catch (error) {
-//     console.error("Error fetching user recipes:", error);
-//     throw error;
-//   }
-// }
-
-async function getUserRecipes(user_id) {
+async function getUserRecipes(user_id, recipe_id=null) {
+  console.log("Fetching recipes for user_id:", user_id);
   try {
-    const recipesQuery = `
-      SELECT recipe_id, title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian
-      FROM MyRecipes 
-      WHERE user_id = ${user_id}
+    let recipesQuery = `
+    SELECT recipe_id, title, image_url, ready_in_minutes, servings, gluten_free, vegan, vegetarian
+    FROM MyRecipes 
+    WHERE user_id = ${user_id}
     `;
+    if (recipe_id) {
+      recipesQuery += ` AND recipe_id = ${recipe_id}`;
+    }
     const recipes = await DButils.execQuery(recipesQuery);
     
     if (recipes.length === 0) {
@@ -223,7 +189,6 @@ async function getUserRecipes(user_id) {
 }
 
 
-
 module.exports = {
     markAsFavorite,
     removeFavorite,
@@ -236,5 +201,5 @@ module.exports = {
     addRecipe,
     addInstruction,
     addIngredient,
-    getUserRecipes
+    getUserRecipes,
   };

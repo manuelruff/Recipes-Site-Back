@@ -20,6 +20,7 @@ CREATE TABLE users (
 );
 
 -- Create Ingredients Table
+-- Create MyRecipes Table with AUTO_INCREMENT starting from 1000000
 CREATE TABLE MyRecipes (
     recipe_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -31,7 +32,7 @@ CREATE TABLE MyRecipes (
     vegan BOOLEAN DEFAULT FALSE,
     vegetarian BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
+) AUTO_INCREMENT = 1000000;
 
 
 -- Create Favorite Recipes Table

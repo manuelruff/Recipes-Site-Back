@@ -193,6 +193,20 @@ router.get('/myrecipes', async (req, res, next) => {
   }
 });
 
+/**
+ * This path returns the recipes for the logged-in user
+ */
+router.get('/myrecipes/:recipeId', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipe_id = req.params.recipeId;
+    const recipe = await user_utils.getUserRecipes(user_id,recipe_id);
+    res.status(200).send(recipe);
+  } catch (error) {
+    console.error("Error in /myrecipes:", error);
+    next(error);
+  }
+});
 
 
 module.exports = router;
