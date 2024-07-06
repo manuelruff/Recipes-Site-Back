@@ -88,11 +88,12 @@ async function searchRecipe(recipeName, cuisine, diet, intolerance, number) {
         query: recipeName,
         cuisine: cuisine,
         diet: diet,
-        intolerances: intolerance
+        intolerances: intolerance,
+        includeNutrition: true
     };
-
     try {
-        const response = await axios.get(`${api_domain}/complexSearch`, { params });
+        const response = await axios.get(`${api_domain}/complexSearch`, { params },'information=true');
+        console.log(response.data); 
         return response.data.results.map(recipe => ({
             id: recipe.id,
             title: recipe.title,

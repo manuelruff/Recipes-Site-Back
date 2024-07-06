@@ -9,17 +9,14 @@ router.get("/", (req, res) => res.send("I'm here"));
  */
 router.get("/search", async (req, res, next) => {
   try {
-    const recipeName = req.body.recipeName;
-    const cuisine = req.body.cuisine;
-    const diet = req.body.diet;
-    const intolerance = req.body.intolerance;
-    const number = req.body.number;    
+    const { recipeName, cuisine, diet, intolerance, number } = req.query; // Change from req.body to req.query
     const results = await recipes_utils.searchRecipe(recipeName, cuisine, diet, intolerance, number);
     res.send(results);
   } catch (error) {
     next(error);
   }
-}); // <-- Missing closing bracket added here
+});
+
 
 /**
  * This path returns 3 random recipes to use when the site is opens
