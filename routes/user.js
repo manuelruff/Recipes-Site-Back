@@ -107,19 +107,7 @@ router.delete('/meals', async (req, res, next) => {
   }
 });
 
-/**
- * This path adds the recipe to last viewed for the logged-in user
- */
-router.post('/lastview', async (req, res, next) => {
-  try {
-    const user_id = req.session.user_id;
-    const recipe_id = req.body.recipeId;
-    await user_utils.markAsLastView(user_id, recipe_id);
-    res.status(200).send("The Recipe successfully added to last view");
-  } catch (error) {
-    next(error);
-  }
-});
+
 
 /**
  * This path returns the meals plan for the logged-in user
@@ -129,6 +117,20 @@ router.get('/lastview', async (req, res, next) => {
     const user_id = req.session.user_id;
     const lastview = await user_utils.getLastViews(user_id);
     res.status(200).send(lastview);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * This path adds the recipe to last viewed for the logged-in user
+ */
+router.post('/lastview', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipe_id = req.body.recipeId;
+    await user_utils.markAsLastView(user_id, recipe_id);
+    res.status(200).send("The Recipe successfully added to last view");
   } catch (error) {
     next(error);
   }
