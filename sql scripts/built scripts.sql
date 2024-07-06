@@ -1,7 +1,12 @@
 -- Drop existing tables if they exist to start clean
 DROP TABLE IF EXISTS UserMeals;
 DROP TABLE IF EXISTS favoriterecipes;
+DROP TABLE IF EXISTS Instructions;
+DROP TABLE IF EXISTS Ingredients;
+DROP TABLE IF EXISTS MyRecipes;
+DROP TABLE IF EXISTS userlastview;
 DROP TABLE IF EXISTS users;
+
 
 -- Create Users Table
 CREATE TABLE users (
@@ -72,7 +77,4 @@ CREATE TABLE Ingredients (
     amount VARCHAR(255) NOT NULL,
     FOREIGN KEY (recipe_id) REFERENCES MyRecipes(recipe_id)
 );
-
-
-
 
