@@ -3,7 +3,13 @@ const recipes_utils = require("./recipes_utils");
 
 
 async function markAsFavorite(user_id, recipe_id){
-    await DButils.execQuery(`insert into FavoriteRecipes values ('${user_id}',${recipe_id})`);
+  try {
+      await DButils.execQuery(`INSERT IGNORE INTO FavoriteRecipes (user_id, recipe_id) VALUES ('${user_id}', ${recipe_id})`);
+      console.log(`Recipe ${recipe_id} marked as favorite for user ${user_id}`);
+  } catch (error) {
+      console.error(`Error marking recipe ${recipe_id} as favorite for user ${user_id}:`, error);
+      throw error; // Propagate the error to handle it further up the call stack if needed
+  }
 }
 
 async function getFavoriteRecipes(user_id){
