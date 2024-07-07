@@ -62,14 +62,12 @@ CREATE TABLE userlastview (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
--- Create All User View Table
+-- Create All User View Table without Foreign Key Constraint
 CREATE TABLE alluserview (
     user_id INT NOT NULL,
-    recipe_id INT NOT NULL,
-    PRIMARY KEY (user_id, recipe_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (recipe_id) REFERENCES MyRecipes(recipe_id)
+    recipe_id INT NOT NULL
 );
+
 -- Create Instrucntions Table
 CREATE TABLE Instructions (
     id INT AUTO_INCREMENT PRIMARY KEY,

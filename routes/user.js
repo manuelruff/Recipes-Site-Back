@@ -141,6 +141,7 @@ router.post('/lastview', async (req, res, next) => {
     const user_id = req.session.user_id;
     const recipe_id = req.body.recipeId;
     await user_utils.markAsLastView(user_id, recipe_id);
+    await user_utils.writeUserRecipeView(user_id, recipe_id);
     res.status(200).send("The Recipe successfully added to last view");
   } catch (error) {
     next(error);

@@ -66,11 +66,6 @@ async function removeFromMeal(user_id, recipe_id=null) {
 async function markAsLastView(user_id, recipe_id) {
   // Get the current last views for the user
   let result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM userlastview WHERE user_id = ${user_id}`);
-  // Insert or ignore into alluserview table
-  await DButils.execQuery(`
-    INSERT IGNORE INTO alluserview (user_id, recipe_id)
-    VALUES (${user_id}, ${recipe_id})
-  `);
   if (result.length === 0) {
       // User not found in UserLastView, insert new row
       await DButils.execQuery(`INSERT INTO userlastview (user_id, LastView1) VALUES (${user_id}, ${recipe_id})`);
@@ -236,6 +231,19 @@ async function getAllViewed(user_id) {
   }
 }
 
+async function writeUserRecipeView(user_id, recipe_id) {
+  try {
+    // Insert or ignore into alluserview table
+    await DButils.execQuery(`
+      INSERT IGNORE INTO alluserview (user_id, recipe_id)
+      VALUES (${user_id}, ${recipe_id})
+    `);
+    console.log(`Successfully marked recipe ${recipe_id} as viewed for user ${user_id} in alluserview table`);
+  } catch (error) {
+    console.error('Error writing to alluserview:', error);
+    throw error;
+  }
+}
 
 async function getFavoriteAndViewedRecipes(user_id){
   const favoriteRecipes = await getFavoriteRecipes(user_id);
@@ -257,5 +265,6 @@ module.exports = {
     addInstruction,
     addIngredient,
     getUserRecipes,
-    getFavoriteAndViewedRecipes
+    getFavoriteAndViewedRecipes,
+    writeUserRecipeView
   };
