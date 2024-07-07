@@ -1,12 +1,13 @@
 -- Drop existing tables if they exist to start clean
 DROP TABLE IF EXISTS UserMeals;
 DROP TABLE IF EXISTS favoriterecipes;
+DROP TABLE IF EXISTS alluserview;
+
 DROP TABLE IF EXISTS Instructions;
 DROP TABLE IF EXISTS Ingredients;
 DROP TABLE IF EXISTS MyRecipes;
 DROP TABLE IF EXISTS userlastview;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS alluserview;
 
 
 -- Create Users Table
