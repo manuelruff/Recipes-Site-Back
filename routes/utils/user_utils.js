@@ -33,12 +33,33 @@ async function getMeals(user_id) {
   }
 }
 
-async function markAsMeal(user_id, recipe_id){
-  await DButils.execQuery(`insert into usermeals values ('${user_id}',${recipe_id})`);
+async function markAsMeal(user_id, recipe_id) {
+  // Check if the recipe is already added to the meal plan
+  const exists = await DButils.execQuery(
+    `SELECT * FROM usermeals WHERE user_id='${user_id}' AND recipe_id='${recipe_id}'`
+  );
+
+  // If the recipe exists, throw an error
+  if (exists.length > 0) {
+    throw new Error('Meal already added');
+  }
+
+  // If not, add the recipe to the meal plan
+  await DButils.execQuery(
+    `INSERT INTO usermeals (user_id, recipe_id) VALUES ('${user_id}', '${recipe_id}')`
+  );
 }
 
-async function removeFromMeal(user_id, recipe_id) {
+
+
+async function removeFromMeal(user_id, recipe_id=null) {
+  if (!recipe_id) {
+      // Remove all meals for the user
+      await DButils.execQuery(`DELETE FROM usermeals WHERE user_id='${user_id}'`);
+  }
+  else{
   await DButils.execQuery(`DELETE FROM usermeals WHERE user_id='${user_id}' AND recipe_id=${recipe_id}`);
+  }
 }
 
 // last view code

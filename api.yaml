@@ -401,6 +401,13 @@
         responses:
           '200':
             description: Recipe successfully added to favorites or meal plan
+          '409':
+            description: Recipe already exists in meal plan
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: Recipe already exists in meal plan
           '404':
             description: Recipe or user not found
             content:
@@ -415,11 +422,12 @@
         operationId: removeRecipeFromMealPlan
         description: |
           remove a recipe from user's meal plan
+          if no recipeid is passed, all the recipes will be removed for the user
         parameters:
           - in: query
             name: recipeId
             description: ID of recipe to remove from meal plan
-            required: true
+            required: false
             schema:
               type: integer
               format: int32

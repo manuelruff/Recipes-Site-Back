@@ -89,9 +89,16 @@ router.post('/meals', async (req, res, next) => {
     await user_utils.markAsMeal(user_id, recipe_id);
     res.status(200).send("The Recipe successfully saved to meals");
   } catch (error) {
-    next(error);
+    if (error.message === 'Meal already added') {
+      // Return a 409 Conflict status code indicating a duplicate entry
+      res.status(409).send("Error: The recipe is already added to your meal plan.");
+    } else {
+      // Pass other types of errors to the error handling middleware
+      next(error);
+    }
   }
 });
+
 
 /**
  * This path deletes the recipe from meal plan for the logged-in user
@@ -100,7 +107,14 @@ router.delete('/meals', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const recipe_id = req.body.recipeId;
-    await user_utils.removeFromMeal(user_id, recipe_id);
+    if(recipe_id === undefined)
+    {
+      await user_utils.removeFromMeal(user_id);
+    }
+    else
+    {
+      await user_utils.removeFromMeal(user_id, recipe_id);
+    }
     res.status(200).send("The Recipe successfully removed from meals");
   } catch (error) {
     next(error);
