@@ -71,18 +71,25 @@ async function markAsLastView(user_id, recipe_id) {
       // User not found in UserLastView, insert new row
       await DButils.execQuery(`INSERT INTO userlastview (user_id, LastView1) VALUES (${user_id}, ${recipe_id})`);
   } else {
-      // User found, update the views
-      let { LastView1, LastView2 } = result[0];
-      
-      await DButils.execQuery(`
-          UPDATE userlastview
-          SET LastView1 = ${recipe_id},
-              LastView2 = ${LastView1 !== null ? LastView1 : 'NULL'},
-              LastView3 = ${LastView2 !== null ? LastView2 : 'NULL'}
-          WHERE user_id = ${user_id}
-      `);
+      // User found, update the views if the new recipe_id is not already one of the last views
+      let { LastView1, LastView2, LastView3 } = result[0];
+
+      // Check if the recipe_id is already one of the last views
+      if (recipe_id !== LastView1 && recipe_id !== LastView2 && recipe_id !== LastView3) {
+          // Move LastView1 to LastView2, LastView2 to LastView3, and add the new recipe_id to LastView1
+          await DButils.execQuery(`
+              UPDATE userlastview
+              SET LastView1 = ${recipe_id},
+                  LastView2 = ${LastView1 !== null ? LastView1 : 'NULL'},
+                  LastView3 = ${LastView2 !== null ? LastView2 : 'NULL'}
+              WHERE user_id = ${user_id}
+          `);
+      } else {
+          console.log("Recipe already in the last views, skipping update to avoid duplication.");
+      }
   }
 }
+
 
 
 

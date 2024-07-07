@@ -11,7 +11,7 @@ router.get("/search", async (req, res, next) => {
   try {
     const { recipeName, cuisine, diet, intolerance, number } = req.query; // Change from req.body to req.query
     const results = await recipes_utils.searchRecipe(recipeName, cuisine, diet, intolerance, number);
-    res.send(results);
+    res.status(200).send(results);
   } catch (error) {
     next(error);
   }
@@ -25,8 +25,7 @@ router.get("/random", async (req, res, next) => {
   try {
     const number = req.query.number; // Use req.query to get query parameters
     const results = await recipes_utils.getRandomRecipes(number);
-    console.log(number);
-    res.send(results);
+    res.status(200).send(results);
   } catch (error) {
     console.error("Failed to get random recipes:", error);
     next(error);
@@ -42,7 +41,7 @@ router.get("/random", async (req, res, next) => {
 router.get("/:recipeId", async (req, res, next) => {
   try {
     const recipe = await recipes_utils.getRecipeDetails(req.params.recipeId);
-    res.send(recipe);
+    res.status(200).send(recipe);
   } catch (error) {
     next(error);
   }
