@@ -33,7 +33,7 @@ CREATE TABLE MyRecipes (
     vegan BOOLEAN DEFAULT FALSE,
     vegetarian BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-) AUTO_INCREMENT = 1000000;
+) AUTO_INCREMENT = 10000000000000;
 
 
 -- Create Favorite Recipes Table

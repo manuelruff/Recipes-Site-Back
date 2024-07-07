@@ -247,6 +247,7 @@ async function writeUserRecipeView(user_id, recipe_id) {
 
 async function getFavoriteAndViewedRecipes(user_id){
   const favoriteRecipes = await getFavoriteRecipes(user_id);
+
   const lastViewedRecipes = await getAllViewed(user_id);
 
   return {favoriteRecipes, lastViewedRecipes};
