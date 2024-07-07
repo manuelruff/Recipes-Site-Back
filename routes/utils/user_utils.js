@@ -66,7 +66,11 @@ async function removeFromMeal(user_id, recipe_id=null) {
 async function markAsLastView(user_id, recipe_id) {
   // Get the current last views for the user
   let result = await DButils.execQuery(`SELECT LastView1, LastView2, LastView3 FROM userlastview WHERE user_id = ${user_id}`);
-
+  // Insert or ignore into alluserview table
+  await DButils.execQuery(`
+    INSERT IGNORE INTO alluserview (user_id, recipe_id)
+    VALUES (${user_id}, ${recipe_id})
+  `);
   if (result.length === 0) {
       // User not found in UserLastView, insert new row
       await DButils.execQuery(`INSERT INTO userlastview (user_id, LastView1) VALUES (${user_id}, ${recipe_id})`);
@@ -221,7 +225,24 @@ async function getUserRecipes(user_id, recipe_id=null) {
     throw error;
   }
 }
+async function getAllViewed(user_id) {
+  try {
+    const query = `SELECT recipe_id FROM alluserview WHERE user_id='${user_id}'`;
+    const result = await DButils.execQuery(query);
+    return result.map(row => row.recipe_id);
+  } catch (error) {
+    console.error('Error fetching viewed recipes:', error);
+    throw error;
+  }
+}
 
+
+async function getFavoriteAndViewedRecipes(user_id){
+  const favoriteRecipes = await getFavoriteRecipes(user_id);
+  const lastViewedRecipes = await getAllViewed(user_id);
+
+  return {favoriteRecipes, lastViewedRecipes};
+}
 
 module.exports = {
     markAsFavorite,
@@ -236,4 +257,5 @@ module.exports = {
     addInstruction,
     addIngredient,
     getUserRecipes,
+    getFavoriteAndViewedRecipes
   };

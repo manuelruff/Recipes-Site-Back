@@ -221,5 +221,18 @@ router.get('/myrecipes/:recipeId', async (req, res, next) => {
   }
 });
 
+/**
+ * This path returns the recipes for the logged-in user
+ */
+router.get('/FavoriteAndViewed', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const data = await user_utils.getFavoriteAndViewedRecipes(user_id);
+    res.status(200).send(data);
+  } catch (error) {
+    console.error("Error in /myrecipes:", error);
+    next(error);
+  }
+});
 
 module.exports = router;

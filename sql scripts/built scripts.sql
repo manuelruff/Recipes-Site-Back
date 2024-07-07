@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS Ingredients;
 DROP TABLE IF EXISTS MyRecipes;
 DROP TABLE IF EXISTS userlastview;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS alluserview;
 
 
 -- Create Users Table
@@ -61,6 +62,14 @@ CREATE TABLE userlastview (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+-- Create All User View Table
+CREATE TABLE alluserview (
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    PRIMARY KEY (user_id, recipe_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (recipe_id) REFERENCES MyRecipes(recipe_id)
+);
 -- Create Instrucntions Table
 CREATE TABLE Instructions (
     id INT AUTO_INCREMENT PRIMARY KEY,
