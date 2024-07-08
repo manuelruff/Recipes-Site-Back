@@ -9,13 +9,18 @@ router.get("/", (req, res) => res.send("I'm here"));
  */
 router.get("/search", async (req, res, next) => {
   try {
-    const { recipeName, cuisine, diet, intolerance, number } = req.query; // Change from req.body to req.query
+    const { recipeName, cuisine, diet, intolerance, number } = req.query;
     const results = await recipes_utils.searchRecipe(recipeName, cuisine, diet, intolerance, number);
+    if (results.length === 0) {
+      res.status(404).send({ message: "No recipes found"});
+      return;
+    }
     res.status(200).send(results);
   } catch (error) {
     next(error);
   }
 });
+
 
 
 /**
@@ -34,13 +39,18 @@ router.get("/random", async (req, res, next) => {
 
 
 
-
 /**
  * This path returns full details of a recipe by its id
  */
 router.get("/:recipeId", async (req, res, next) => {
   try {
     const recipe = await recipes_utils.getRecipeDetails(req.params.recipeId);
+
+    if (!recipe) {
+      res.status(404).send({ message: "Recipe not found", success: false });
+      return;
+    }
+
     res.status(200).send(recipe);
   } catch (error) {
     next(error);
