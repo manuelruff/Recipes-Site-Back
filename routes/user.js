@@ -41,6 +41,12 @@ router.get('/favorites', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const recipes_id = await user_utils.getFavoriteRecipes(user_id);
+    
+    if (recipes_id.length === 0) {
+      res.status(404).send({ message: "No favorite recipes found", success: false });
+      return;
+    }
+    
     const recipes_id_array = recipes_id.map(element => element.recipe_id); // Extracting the recipe ids into array
     const results = await recipe_utils.getRecipesPreview(recipes_id_array);
     res.status(200).send(results);
@@ -48,6 +54,7 @@ router.get('/favorites', async (req, res, next) => {
     next(error);
   }
 });
+
 
 /**
  * This path deletes the favorite recipe from the logged-in user
@@ -63,6 +70,7 @@ router.delete('/favorites', async (req, res, next) => {
   }
 });
 
+
 /**
  * This path returns the meals plan for the logged-in user
  */
@@ -70,11 +78,18 @@ router.get('/meals', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const meals = await user_utils.getMeals(user_id);
+
+    if (!meals || meals.length === 0) {
+      res.status(404).send({ message: "No meals found for the user", success: false });
+      return;
+    }
+
     res.status(200).send(meals);
   } catch (error) {
     next(error);
   }
 });
+
 
 /**
  * This path adds the recipe to meal plan for the logged-in user
@@ -121,17 +136,24 @@ router.delete('/meals', async (req, res, next) => {
 
 
 /**
- * This path returns the meals plan for the logged-in user
+ * This path returns the last views for the logged-in user
  */
 router.get('/lastview', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const lastview = await user_utils.getLastViews(user_id);
+
+    if (!lastview || lastview.length === 0) {
+      res.status(404).send({ message: "No last views found for the user", success: false });
+      return;
+    }
+
     res.status(200).send(lastview);
   } catch (error) {
     next(error);
   }
 });
+
 
 /**
  * This path adds the recipe to last viewed for the logged-in user
@@ -200,6 +222,12 @@ router.get('/myrecipes', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const recipes = await user_utils.getUserRecipes(user_id);
+
+    if (!recipes || recipes.length === 0) {
+      res.status(404).send({ message: "No recipes found for the user", success: false });
+      return;
+    }
+
     res.status(200).send(recipes);
   } catch (error) {
     console.error("Error in /myrecipes:", error);
@@ -207,20 +235,28 @@ router.get('/myrecipes', async (req, res, next) => {
   }
 });
 
+
 /**
- * This path returns the recipes for the logged-in user
+ * This path returns a specific recipe for the logged-in user
  */
 router.get('/myrecipes/:recipeId', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const recipe_id = req.params.recipeId;
-    const recipe = await user_utils.getUserRecipes(user_id,recipe_id);
+    const recipe = await user_utils.getUserRecipe(user_id, recipe_id);
+
+    if (!recipe) {
+      res.status(404).send({ message: "Recipe not found for the user", success: false });
+      return;
+    }
+
     res.status(200).send(recipe);
   } catch (error) {
-    console.error("Error in /myrecipes:", error);
+    console.error("Error in /myrecipes/:recipeId:", error);
     next(error);
   }
 });
+
 
 /**
  * This path returns the recipes for the logged-in user
