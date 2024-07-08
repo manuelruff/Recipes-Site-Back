@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS alluserview;
 DROP TABLE IF EXISTS Instructions;
 DROP TABLE IF EXISTS Ingredients;
 DROP TABLE IF EXISTS MyRecipes;
+
 DROP TABLE IF EXISTS userlastview;
 DROP TABLE IF EXISTS users;
 
@@ -23,18 +24,19 @@ CREATE TABLE users (
 
 -- Create Ingredients Table
 -- Create MyRecipes Table with AUTO_INCREMENT starting from 1000000
+
 CREATE TABLE MyRecipes (
     recipe_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
-    image_url VARCHAR(255) NOT NULL,
+    image_url VARCHAR(1024) NOT NULL,
     ready_in_minutes INT NOT NULL,
     servings INT NOT NULL,
     gluten_free BOOLEAN DEFAULT FALSE,
     vegan BOOLEAN DEFAULT FALSE,
     vegetarian BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-) AUTO_INCREMENT = 10000000000000;
+) AUTO_INCREMENT = 10000000;
 
 
 -- Create Favorite Recipes Table
