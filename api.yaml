@@ -146,6 +146,7 @@
                 schema:
                   type: string
                   example: log out successful
+            
       
     
   # recipes
@@ -234,13 +235,6 @@
                   type: array
                   items:
                     $ref: '#/components/schemas/recipe_preview'
-          '404':
-            description: recipe not found
-            content:
-              application/json:
-                schema:
-                  type: string
-                  example: recipe not found
 
     /recipes/{recipeId}:
       get:
@@ -298,6 +292,13 @@
                   type: array
                   items:
                     $ref: '#/components/schemas/recipe_preview'
+          '401':
+            description: session expired
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: you need to log in first 
           '404':
             description: user not found
             content:
@@ -305,6 +306,8 @@
                 schema:
                   type: string
                   example: user not found
+
+
       post:
         tags:
           - users
@@ -322,13 +325,14 @@
         responses:
           '200':
             description: Recipe successfully added to favorites or meal plan
-          '404':
-            description: Recipe or user not found
+          '401':
+            description: session expired
             content:
               application/json:
                 schema:
                   type: string
-                  example: Recipe or user not found
+                  example: you need to log in first
+
       delete:
         tags:
           - users
@@ -352,13 +356,13 @@
                 schema:
                   type: string
                   example: recipe removed from favorite
-          '404':
-            description: recipe not found
+          '401':
+            description: session expired
             content:
               application/json:
                 schema:
                   type: string
-                  example: recipe not found
+                  example: you need to log in first
   
     /users/meals:
       get:
@@ -384,6 +388,14 @@
                 schema:
                   type: string
                   example: user not found
+          '401':
+            description: session expired
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: you need to log in first 
+
       post:
         tags:
           - users
@@ -415,6 +427,7 @@
                 schema:
                   type: string
                   example: Recipe or user not found
+      
       delete:
         tags:
           - users
@@ -439,13 +452,13 @@
                 schema:
                   type: string
                   example: recipe removed from meal plan
-          '404':
-            description: recipe not found
+          '401':
+            description: session expired
             content:
               application/json:
                 schema:
                   type: string
-                  example: recipe not found
+                  example: you need to log in first 
 
     /users/lastview:
       get:
@@ -464,6 +477,13 @@
                   type: array
                   items:
                     $ref: '#/components/schemas/recipe_preview'
+          '401':
+            description: session expired
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: you need to log in first 
           '404':
             description: user not found
             content:
@@ -471,6 +491,7 @@
                 schema:
                   type: string
                   example: user not found
+          
       post:
         tags:
           - users
@@ -488,13 +509,13 @@
         responses:
           '200':
             description: Recipe successfully added to last viewed
-          '404':
-            description: Recipe or user not found
+          '401':
+            description: session expired
             content:
               application/json:
                 schema:
                   type: string
-                  example: Recipe or user not found
+                  example: you need to log in first 
 
     /users/myrecipes:
       get:
@@ -513,6 +534,21 @@
                   type: array
                   items:
                     $ref: '#/components/schemas/recipe_preview'
+          '401':
+            description: session expired
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: you need to log in first 
+          '404':
+            description: user not found
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: user not found
+
       post: 
         tags:
           - users
@@ -595,6 +631,13 @@
                 schema:
                   type: string
                   example: recipe added successfully
+          '401':
+            description: session expired
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: you need to log in first 
     
     /users/myrecipes/{recipeId}:
       get:
@@ -619,35 +662,54 @@
               application/json:
                 schema:
                   $ref: '#/components/schemas/recipe_full_view'
+          '401':
+            description: session expired
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: you need to log in first 
+          '404':
+            description: user not found
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: user not found
     
-    # /user/family:
-    #   get:
-    #       tags:
-    #         - recipe
-    #       summary: get user's family recipes - in our case the site owner family recipes
-    #       operationId: getFamilyRecipes
-    #       description: |
-    #         get user's family recipes
-    #       responses:
-    #         '200':
-    #           description: user's family recipes
-    #           content:
-    #             application/json:
-    #               schema:
-    #                 type: array
-    #                 items:
-    #                   $ref: '#/components/schemas/recipe_family_view'
-    #         '404':
-    #           description: user not found
-    #           content:
-    #             application/json:
-    #               schema:
-    #                 type: string
-    #                 example: user not found
+    /users/FavoriteAndViewed:
+      get:
+        tags:
+          - users
+        summary: Get user's favorite and last viewed recipes
+        operationId: getFavoriteAndViewedRecipes
+        description: Retrieve user's favorite and last viewed recipes
+        responses:
+          '200':
+            description: User's favorite and last viewed recipes
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    favoriteList:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/favoriteRecipe'
+                    lastViewedList:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/lastViewedRecipe'
+          '401':
+            description: session expired
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: you need to log in first 
 
-          
 
-      
+
   components:
     schemas:
       recipe_preview:
@@ -898,3 +960,18 @@
             type: integer
             example: 4
 
+      favoriteRecipe:
+        type: object
+        properties:
+          recipe_id:
+            type: integer
+          recipe_name:
+            type: string
+
+      lastViewedRecipe:
+        type: object
+        properties:
+          recipe_id:
+            type: integer
+          recipe_name:
+            type: string
