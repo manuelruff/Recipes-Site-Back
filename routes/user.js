@@ -243,7 +243,7 @@ router.get('/myrecipes/:recipeId', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const recipe_id = req.params.recipeId;
-    const recipe = await user_utils.getUserRecipe(user_id, recipe_id);
+    const recipe = await user_utils.getUserRecipes(user_id, recipe_id);
 
     if (!recipe) {
       res.status(404).send({ message: "Recipe not found for the user", success: false });
